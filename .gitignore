@@ -1,0 +1,4 @@
+.idea/
+library-system/.idea
+library-system/library-backend/firebase-service-account.json
+library-system/library-backend/target/
