@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 // Handles all Loan-related HTTP requests
 @RestController
@@ -34,7 +35,7 @@ public class LoanController {
     // GET /loans/averdue - returns overdue loans
     // Provides the admin with the red flag list
     @GetMapping("overdue")
-    public ApiResponse<List<Loan>> getOverdueLoans() {
+    public ApiResponse<List<Loan>> getOverdueLoans() throws ExecutionException, InterruptedException {
         return ApiResponse.ok("Overdue loans", loanService.getOverdueLoans());
     }
 

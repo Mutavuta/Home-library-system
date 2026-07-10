@@ -1,97 +1,125 @@
 package com.library.librarybackend.service;
 
-import com.library.librarybackend.model.Loan;
+import com.library.librarybackend.model.*;
+import com.library.librarybackend.repository.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Optional;
 import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
+import java.util.concurrent.ExecutionException;
 
+// Manages the loan lifecycle: approving loans when borrower collects and processing returns
 @Service
 public class LoanService {
 
-    // In-memory loan storage - replaced with Firebase later
-    private List<Loan> loans = new ArrayList<>();
+    @Autowired private LoanRepository loanRepository;
+    @Autowired private HoldRepository holdRepository;
+    @Autowired private BookRepository bookRepository;
+    @Autowired private WaitlistRepository waitlistRepository;
+    @Autowired private NotificationService notificationService;
+    @Autowired private BookService bookService;
 
-    // Returns all loans
-    public List<Loan> getAllLoans() {
-        return loans;
-    }
+    // Admin confirms the loan when the borrower physically collects the book
+    // Admin scans the barcode - system verifies it matches the approved hold assignment
+    public Loan approveLoan(String holdId, String scannedBarcodeId, String dueDate)
+        throws ExecutionException, InterruptedException {
+        Hold hold = holdRepository.findById(holdId)
+                .orElseThrow(() -> new RuntimeException("Hold not found"));
+        // Hold must be pre-approved before a loan can be confirmed
+        if (!"approved".equals(hold.getStatus())) {
+            throw new RuntimeException("Hold must be approved pre-approved confirming loan.");
+        }
 
-    // Returns only active loans
-    public List<Loan> getActiveLoans() {
-        return loans.stream()
-                .filter(l -> l.getId().equals("active"))
-                .collect(Collectors.toList());
-    }
+        // Verify the scanned barcode matches what was assigned to this hold
+        if (!scannedBarcodeId.equals(hold.getAssignedBarcodeId())) {
+            Book scanned = bookRepository.findById(scannedBarcodeId)
+                    .orElseThrow(() -> new RuntimeException("Scanned book not found"));
+            // If it is a different copy of the same title, admin override is allowed
+            if (!scanned.getTitleId().equals(hold.getTitleId())) {
+                throw new RuntimeException(
+                        "MISMATCH: Scanned book \"" + scanned.getTitle()
+                        + "\" does not match hold for \"" + hold.getTitle() + "\" . Please check."
+                );
+            }
+        }
 
-    // Returns loans for one specific borrower
-    // Used for "My Loans" page on the website
-    public List<Loan> getLoansByUserId(String userId) {
-        return loans.stream()
-                .filter(l -> l.getId().equals(userId))
-                .collect(Collectors.toList());
-    }
-
-    // Returns overdue loans for admin's red flag list in the app
-    public List<Loan> getOverdueLoans() {
-        String today = LocalDate.now().toString();
-        return loans.stream()
-                .filter(l -> l.getStatus().equals("overdue")
-                && l.getDueDate().compareTo(today) < 0)
-                .collect(Collectors.toList());
-    }
-
-    // Admin confirms a loan when borrower collects the book
-    // holdId links this loan back to the hold it came from - dueDate is set by admin
-    public Loan createLoan(String userId, String bookId, String titleId,
-                           String holdId, String dueDate) {
+        // Create the loa record
         Loan loan = new Loan();
-        loan.setId(UUID.randomUUID().toString());
-        loan.setUserId(userId);
-        loan.setBookId(bookId);
-        loan.setTitleId(titleId);
+        loan.setUserId(hold.getUserId());
+        loan.setBarcodeId(scannedBarcodeId);
+        loan.setTitleId(hold.getTitleId());
         loan.setHoldId(holdId);
         loan.setLoanDate(LocalDate.now().toString());
         loan.setDueDate(dueDate);
-        loan.setReturnDate(null); // null until book is returned
         loan.setStatus("active");
-        loans.add(loan);
+        loanRepository.save(loan);
+
+        // Mark the copy as loaned and the hold as collected and the hold as collected
+        bookRepository.updatesStatus(scannedBarcodeId, "loaned", hold.getUserId());
+        holdRepository.updateStatus(holdId, "collected", null, null);
+
+        // Recalculate title copy counts now that one copy changed to loaned
+        bookService.refreshTitleCounts(hold.getTitleId());
+
         return loan;
     }
 
-    // Admin processes a return - borrower brings book back
-    // Sets returnDate to today and status to returned
-    public Optional<Loan> processReturn(String bookId) {
-        // Find the active loan for this book
-        Optional<Loan> loanOpt = loans.stream()
-                .filter(l -> l.getBookId().equals(bookId)
-                && l.getStatus().equals("active"))
-                .findFirst();
-        loanOpt.ifPresent(loan ->{
-            loan.setStatus("returned");
-            loan.setReturnDate(LocalDate.now().toString());
-        });
-        return loanOpt;
+    // Admin scans returned book barcode to process a return
+    // Finds the active loan, marks it returned, frees the copy, notifies the waitlist
+    public Loan processReturn(String barcodeId) throws ExecutionException, InterruptedException {
+        // Find the active loan for this copy
+        Loan loan = loanRepository.findActiveByBarcodeId(barcodeId)
+                .orElseThrow(() -> new RuntimeException("No active loan found for barcode: " + barcodeId));
+
+        String today = LocalDate.now().toString();
+        loanRepository.markReturned(loan.getId(), today);
+
+        // Free the copy back to available
+        bookRepository.updatesStatus(barcodeId, "available", null);
+        bookService.refreshTitleCounts(loan.getTitleId());
+
+        // Check if anyone is waiting for this title and notify them
+        List<WaitlistEntry> waiting = waitlistRepository
+                .findByTitleIdAndStatus(loan.getTitleId(), "waiting");
+        if (!waiting.isEmpty()) {
+            WaitlistEntry next = waiting.get(0);
+            waitlistRepository.updateStatus(next.getId(), "notified");
+            Book book = bookRepository.findById(barcodeId).orElse(null);
+            // Use title from book if available, fallback to generic message
+            String title = book != null ? book.getTitle() : "A book";
+            notificationService.notifyBookAvailable(next.getUserId(), title);
+        }
+
+        // Update and return the loan object with final status
+        loan.setStatus("returned");
+        loan.setReturnDate(today);
+        return loan;
     }
 
-    // Marks a loan as overdue
-    // Called by the scheduler every night for past-due active loans
-    public void markOverdue(String loanId) {
-        loans.stream()
-                .filter(l -> l.getId().equals(loanId))
-                .findFirst()
-                .ifPresent(l -> l.setStatus("overdue"));
+    // Returns all currently active loans
+    public List<Loan> getAllActiveLoans() throws ExecutionException, InterruptedException {
+        return loanRepository.findAllActive();
     }
 
-    // Finds one loan by ID
-    public Optional<Loan> findById(String loanId) {
-        return loans.stream()
-                .filter(l -> l.getId().equals(loanId))
-                .findFirst();
+    // Returns all loans for a specific borrower
+    public List<Loan> getUserLoans(String userId) throws ExecutionException, InterruptedException {
+        return loanRepository.findByUserId(userId);
+    }
+
+    // Returns every loan ever created
+    public List<Loan> getAllLoana() throws ExecutionException, InterruptedException {
+        return loanRepository.findAll();
+    }
+
+    // Returns active loans where the due date is in the past - used byn the scheduler
+    public List<Loan> getOverdueLoans() throws ExecutionException, InterruptedException {
+        String today = LocalDate.now().toString();
+        List<Loan> active = loanRepository.findAllActive();
+        // String date comparison works here because format is yyyy-mm-dd - sorts lexicographically
+        return active.stream()
+                .filter(l -> l.getDueDate() != null && l.getDueDate().compareTo(today) < 0)
+                .toList();
     }
 
 }

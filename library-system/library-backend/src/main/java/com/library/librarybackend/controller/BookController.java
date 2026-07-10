@@ -25,7 +25,7 @@ public class BookController {
 
     @GetMapping("/{id}")
     public ApiResponse<Book> getBookById(@PathVariable String id) {
-        return bookService.getBookById(id)
+        return bookService.getBookByBarcode(id)
                 .map(book -> ApiResponse.ok("Book found",book))
                 .orElse(ApiResponse.error("Book not found"));
     }
