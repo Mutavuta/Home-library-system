@@ -73,6 +73,13 @@ public class BookTitleRepository {
         firestore.collection(COLLECTION).document(id).delete().get();
     }
 
+    // Returns titles filtered by category
+    public List<BookTitle> findByCategory(String category) throws ExecutionException, InterruptedException {
+        QuerySnapshot qs = firestore.collection(COLLECTION)
+                .whereEqualTo("category", category).get().get();
+        return qs.getDocuments().stream().map(this::fromDoc).collect(Collectors.toList());
+    }
+
     // Converts a Firebase document into a BookTitle object
     // Firestore stores numbers as Long - we convert to int for the model
     @SuppressWarnings("unchecked")

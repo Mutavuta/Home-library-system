@@ -9,7 +9,7 @@ import lombok.Data;
 public class AddBookRequest {
 
     // The barcode printed on the physical sticker you put on the book
-    private String barcode;
+    private String barcodeId;
 
     private String title;
     private String author;
