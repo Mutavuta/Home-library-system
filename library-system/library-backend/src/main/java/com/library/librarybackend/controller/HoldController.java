@@ -4,6 +4,9 @@ import com.library.librarybackend.dto.ApiResponse;
 import com.library.librarybackend.model.Hold;
 import com.library.librarybackend.service.HoldService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,78 +17,90 @@ import java.util.Map;
 @RequestMapping("/holds")
 public class HoldController {
 
-    // Spring injects HoldService automatically
-    @Autowired
-    private HoldService holdService;
+    @Autowired private HoldService holdService;
 
-    // GET /holds - returns all books
-    @GetMapping
-    public ApiResponse<List<Hold>> getAllHolds() {
-        return ApiResponse.ok("Holds fetched", holdService.getAllHolds());
-    }
-
-    // GET /holds/pending - returns only pending holds - used by admin to see what needs approval
-    @GetMapping("/pending")
-    public ApiResponse<List<Hold>> getPendingHolds() {
-        return ApiResponse.ok("pending holds",
-                holdService.getHoldsByStatus("pending"));
-    }
-
-    // GET /holds/user/{userId} - returns holds for one borrower - for MyHolds on the website
-    @GetMapping("/user/{userId}")
-    public ApiResponse<List<Hold>> getHoldsByUser(@PathVariable String userId) {
-        return ApiResponse.ok("User holds",
-                holdService.getHoldsByUserId(userId));
-    }
-
-    // POST /holds - borrower places a new hold and body must contain userId, titleId, title
+    // POST /holds - borrower places a hold on title
+    // If copies are available a pending hold is created if not the user is added to the waitlist
+    // auth.getPrincipal() givees us the userId that JwtAuthFilter stamped on the request
     @PostMapping
-    public ApiResponse<Hold> placeHold(@RequestBody Map<String, String> body) {
-        // Read values from the request body map
-        String userId = body.get("userId");
-        String titleId = body.get("titleId");
-        String title = body.get("title");
-
-        // Validate all required fields are present
-        if (userId == null || titleId == null || title == null) {
-            return ApiResponse.error("userId, titleId and title are required");
+    public ResponseEntity<ApiResponse<Hold>> placeHold(
+            @RequestBody Map<String, String> body,
+            Authentication auth) {
+        try {
+            String userId = (String) auth.getPrincipal();
+            Hold hold = holdService.placeHold(userId, body.get("titleId"));
+            return ResponseEntity.ok(ApiResponse.ok("Hold placed successfully", hold));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()));
         }
-
-        Hold hold = holdService.placeHold(userId, titleId, title);
-        return ApiResponse.ok("Hold placed successfully", hold);
     }
 
-    // PUT /holds/{id}/approve - admin approves a hold
-    // Body must contain: bookId (the specific copy being assigned
-    @PutMapping("/{id}/approve")
-    public ApiResponse<Hold> approveHold(@PathVariable String id,
-                                         @RequestBody Map<String, String> body){
-        String bookId = body.get("bookId");
-        // Check if the bookId is field
-        if (bookId == null) {
-            ApiResponse.error("bookId is required");
+    // GET /holds/mine - returns all holds for the logged-in borrower
+    @GetMapping("/mine")
+    public ResponseEntity<ApiResponse<List<Hold>>> myHolds(Authentication auth) {
+        try {
+            String userId = (String) auth.getPrincipal();
+            return ResponseEntity.ok(ApiResponse.ok("OK", holdService.getUserHolds(userId)));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error(e.getMessage()));
         }
-
-        return holdService.approveHold(id, bookId)
-                .map(hold -> ApiResponse.ok("Hold approved", hold))
-                .orElse(ApiResponse.error("Hold not found"));
     }
 
-    // PUT /hold/{id}/collect - marks a hold collected - called when borrower picks up the book
-    @PutMapping("/{id}/collect")
-    public ApiResponse<Hold> markCollected(@PathVariable String id) {
-        return holdService.markCollected(id)
-                .map(hold -> ApiResponse.ok("Hold marked collected", hold))
-                .orElse(ApiResponse.error("Hold not found"));
+    // DELETE /holds/{holdId} - borrower cancels their own pending hold
+    @DeleteMapping("/{holdId}")
+    public ResponseEntity<ApiResponse<Void>> cancelHold(
+            @PathVariable String holdId, Authentication auth) {
+        try {
+            String userId = (String) auth.getPrincipal();
+            holdService.canceHold(holdId, userId);
+            return ResponseEntity.ok(ApiResponse.ok("Hold cancelled", null));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()));
+        }
     }
 
-    // PUT /holds/{id}/abandon - cancels a hold
-    // Called by then scheduler when hold expires
-    @PutMapping("/{id}/abandon")
-    public ApiResponse<Hold> abandonHold(@PathVariable String id) {
-        return holdService.abandonHold(id)
-                .map(hold -> ApiResponse.ok("Hold abandoned", hold))
-                .orElse(ApiResponse.error("Hold not found"));
+    // GET /holds/admin/all -returns all holds in the system
+    // Optional ?status=pending filters by status
+    @GetMapping("/admin/all")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ApiResponse<List<Hold>>> allHolds(
+            @RequestParam(required = false) String status) {
+        try {
+            List<Hold> holds = status != null
+                    ? holdService.getHoldByStatus(status)
+                    : holdService.getAllHolds();
+            return ResponseEntity.ok(ApiResponse.ok("OK", holds));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error(e.getMessage()));
+        }
+    }
+
+    // POST /holds/admin/{holdId}/approve - admin asigns a copy to a pending hold
+    @PostMapping("/admin/{holdId}/approve")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ApiResponse<Hold>> approveHold(
+            @PathVariable String holdId,
+            @RequestBody Map<String, String> body) {
+        try {
+            Hold hold = holdService.approveHold(holdId, body.get("barcodeId"));
+            return ResponseEntity.ok(ApiResponse.ok("Hold approved", hold));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()));
+
+        }
+    }
+
+    // POST /holds/admin/{holdId}/expire - admin manually expires a hold
+    // Used when borrower did not collect within the allowed days
+    @PostMapping("/admin/{holdId}/expire")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ApiResponse<Void>> expireHold(@PathVariable String holdId) {
+        try {
+            holdService.expireHold(holdId);
+            return ResponseEntity.ok(ApiResponse.ok("Hold expired", null));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()));
+        }
     }
 
 }
