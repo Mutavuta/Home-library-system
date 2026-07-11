@@ -1,12 +1,15 @@
 package com.library.librarybackend.controller;
 
 import com.library.librarybackend.dto.ApiResponse;
+import com.library.librarybackend.dto.AuthRequest;
+import com.library.librarybackend.dto.AuthResponse;
+import com.library.librarybackend.dto.RegisterRequest;
 import com.library.librarybackend.model.User;
-import com.library.librarybackend.service.UserService;
+import com.library.librarybackend.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 // Handles login and registration
 // Separate from UserController because auth is a different concern
@@ -14,80 +17,61 @@ import java.util.Map;
 @RequestMapping("/auth")
 public class AuthController {
 
-    // Spring injects UserService
-    @Autowired
-    private UserService userService;
+    @Autowired private AuthService authService;
 
-    // POST /auth/register - new borrower creates an account
-    // Status is forced to "pending" in UserController
-    // Role is forced to "borrower" in UserController
+    // POST /auth/register - borrower creates their own account.
+    // Account starts as pending - admin must approve before they can log in
     @PostMapping("/register")
-    public ApiResponse<User> register(@RequestBody User user) {
-
-        // Block registration if email already exists
-        if (userService.findByEmail(user.getEmail()).isPresent()) {
-            return ApiResponse.error("Email already registered");
+    public ResponseEntity<ApiResponse<User>> register(@RequestBody RegisterRequest req) {
+        try {
+            User user = authService.register(req);
+            // Never send the password hash back to the client
+            user.setPasswordHash(null);
+            return ResponseEntity.ok(ApiResponse.ok(
+                    "Registration successful. Please wait for the librarian to approve your account.",user
+            ));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()));
         }
-
-        // Validate required fields are not empty
-        if (user.getFullName() == null || user.getEmail() == null ||
-        user.getPasswordHash() == null){
-            return ApiResponse.error("Name, email and password are required");
-        }
-
-        User created = userService.createUser(user);
-
-        // Never send password hash back to the client
-        created.setPasswordHash(null);
-
-        return ApiResponse.ok("Registration successful. " +
-                "Your account is pending approval. ",created);
     }
 
-    //POST /auth/login - user logs in with email and password
-    // A simple match for now - later add BCrypt + JWT
+    // POST /auth/login - works for both borrowers and admin
+    // Returns a JWT token the client stores and sends on every subsequent request
     @PostMapping("/login")
-    public ApiResponse<User> login(@RequestBody Map<String, String> body) {
-
-        String email    = body.get("email");
-        String password = body.get("password");
-
-        // Validate fields present
-        if (email == null || password == null) {
-            return ApiResponse.error("Email and password are required");
+    public ResponseEntity<ApiResponse<AuthResponse>> login(@RequestBody AuthRequest req) {
+        try {
+            AuthResponse resp = authService.login(req);
+            return ResponseEntity.ok(ApiResponse.ok("Login success", resp));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()));
         }
+    }
 
-        // Find user by email
-        // orElse returns null if not found
-        User user = userService.findByEmail(email).orElse(null);
-
-        // Email not found
-        if (user == null) {
-            // Deliberately vague - do not tell attacker whether email exists
-            return ApiResponse.error("Invalid email or password");
+    // POST /auth/create-admin - admin creates another admin account
+    // Only callable by an existing admin via the Android app
+    @PostMapping("/create-admin")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ApiResponse<User>> createAdmin(@RequestBody RegisterRequest req) {
+        try {
+            User admin = authService.createAdmin(req);
+            admin.setPasswordHash(null);
+            return ResponseEntity.ok(ApiResponse.ok("Admin account created", admin));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()));
         }
+    }
 
-        // Check password matches
-        // Simple string comparison for now - replaced with Bcrypt later
-        if ( ! password.equals(user.getPasswordHash())) {
-            return ApiResponse.error("Invalid email or password");
+    // Post /auth/bootstrap-admin - one-time endpoint to create the admin the very first admin account
+    @PostMapping("/bootstrap-admin")
+    public ResponseEntity<ApiResponse<User>> bootstrapAdmin(@RequestBody RegisterRequest req)  {
+        try {
+            User admin = authService.bootstrapFirstAdmin(req);
+            admin.setPasswordHash(null);
+            return ResponseEntity.ok(ApiResponse.ok(
+                    "First admin created. This endpoint is now locked.", admin));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()));
         }
-
-        // Block suspended users from logging in
-        if ("suspend".equals(user.getStatus())) {
-            return ApiResponse.error("Account suspended. Contact the librarian.");
-        }
-
-        // Block pending users from logging in
-        if ("pending".equals(user.getStatus())) {
-            return ApiResponse.error("Account pending approval. " +
-                    "Wait for the librarian to approve your account. ");
-        }
-
-        // Never send password hash back to the client
-        user.setPasswordHash(null);
-
-        return ApiResponse.ok("Login successful", user);
     }
 
 }
