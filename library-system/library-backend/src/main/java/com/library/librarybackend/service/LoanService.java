@@ -108,7 +108,7 @@ public class LoanService {
     }
 
     // Returns every loan ever created
-    public List<Loan> getAllLoana() throws ExecutionException, InterruptedException {
+    public List<Loan> getAllLoans() throws ExecutionException, InterruptedException {
         return loanRepository.findAll();
     }
 
