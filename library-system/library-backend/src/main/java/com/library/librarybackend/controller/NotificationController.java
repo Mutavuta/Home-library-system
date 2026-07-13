@@ -4,6 +4,8 @@ import com.library.librarybackend.dto.ApiResponse;
 import com.library.librarybackend.model.Notification;
 import com.library.librarybackend.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,53 +16,42 @@ import java.util.Map;
 @RequestMapping("/notifications")
 public class NotificationController {
 
-    // Spring injects NotificationsService automatically
-    @Autowired
-    private NotificationService notificationService;
+    @Autowired private NotificationService notificationService;
 
-    // Get /notifications/user/{userIdId} - gets all notifications for a user
-    // Website calls this when borrower opens notifications page
-    @GetMapping("/user/{userId}")
-    public ApiResponse<List<Notification>> getNotifications(
-            @PathVariable String userId) {
-        return ApiResponse.ok("notifications fetched",
-                notificationService.getNotificationsForUser(userId));
-    }
-
-    // Get /notification/usert/{userId}/unread - gets unread count
-    // Website calls this on every page load for the bell badge
-    @GetMapping("/user/{userId}/unread")
-    public ApiResponse<Long> getUnreadCount(@PathVariable String userId) {
-        return ApiResponse.ok("Unread count",
-                notificationService.countUnread(userId));
-    }
-
-    // PUT /notifications/user/{userId}/read - marks all as read
-    // Called when borrower opens the notifications page
-    @PutMapping("/user/{userId}/read")
-    public ApiResponse<Void> markAllRead(@PathVariable String userId) {
-        notificationService.markAllRead(userId);
-        return ApiResponse.ok("All notifications marked as read", null);
-    }
-
-    // POST /notification/send - sends a notification manually
-    // Useful for testing - in production notification are sent
-    // automatically by services (HoldService, LoanService etc.)
-    @PostMapping("/send")
-    public ApiResponse<Void> sendNotification(
-            @RequestBody Map<String, String> body) {
-        String userId  = body.get("userId");
-        String title   = body.get("title");
-        String message = body.get("message");
-
-        // Validate all fields are present
-        if( userId == null || title == null || message == null ){
-            return ApiResponse.error("All fields are required");
+    // GET /notifications - returns all notifications for the logged-in borrower
+    @GetMapping
+    public ResponseEntity<ApiResponse<List<Notification>>> getNotifications(Authentication auth) {
+        try {
+            String userId = (String) auth.getPrincipal();
+            return ResponseEntity.ok(ApiResponse.ok("OK",
+                    notificationService.getUserNoticications(userId)));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error(e.getMessage()));
         }
-
-        notificationService.send(userId, title, message);
-        return ApiResponse.ok("Notification sent", null);
     }
 
+    // GET /notfications/unread-count - returns the no. of unread notifications
+    @GetMapping("/unread-count")
+    public ResponseEntity<ApiResponse<Map<String, Long>>> unreadCount(Authentication auth) {
+        try{
+            String userId = (String) auth.getPrincipal();
+            long count = notificationService.getUnreadCount(userId);
+            return ResponseEntity.ok(ApiResponse.ok("OK", Map.of("count", count)));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error(e.getMessage()));
+        }
+    }
+
+    // PST /notofications/mark-read - marks all notifications as reda for a user
+    @PostMapping("/mark-read")
+    public ResponseEntity<ApiResponse<Void>> markAllRead(Authentication auth) {
+        try {
+           String userId = (String) auth.getPrincipal();
+           notificationService.markAllRead(userId);
+           return ResponseEntity.ok(ApiResponse.ok("All notifications marked as read.",null));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error(e.getMessage()));
+        }
+    }
 
 }
