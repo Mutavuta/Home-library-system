@@ -34,7 +34,7 @@ public class LoanController {
 
     // POST /loans/admin/return - admin scans a returned book to process the return
     @PostMapping("/admin/return")
-    @PreAuthorize("hasRole(ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<Loan>> returnBook(@RequestBody Map<String, String> body) {
         try {
             Loan loan = loanService.processReturn(body.get("barcodeId"));

@@ -50,7 +50,7 @@ public class BookTitleRepository {
         updates.put("availableCopies", availableCopies);
         updates.put("reservedCopies", reservedCopies);
         updates.put("loanedCopies", loanedCopies);
-        firestore.collection(COLLECTION).document(titleId).set(updates).get();
+        firestore.collection(COLLECTION).document(titleId).update(updates).get();
     }
 
     // Adds a barcodeId to this title's copies array - called when a new copy is added
