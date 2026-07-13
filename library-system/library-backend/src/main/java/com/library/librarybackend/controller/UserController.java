@@ -4,63 +4,113 @@ import com.library.librarybackend.dto.ApiResponse;
 import com.library.librarybackend.model.User;
 import com.library.librarybackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
+import java.util.Map;
 
 // Handles all user-related HTTP requests
 @RestController
-// Declares all requests to be served by this class must start with "/users" in their request path
 @RequestMapping("/users")
 public class UserController {
 
-    // Spring injects UserService automatically
-    @Autowired
-    private UserService userService;
+    @Autowired private UserService userService;
 
-    // GET /users - returns all users
-    @GetMapping
-    public ApiResponse<List<User>> getAllUsers() {
-        return ApiResponse.ok("Users fetched", userService.getAllUsers());
-    }
-
-    // GET /users/pending - returns pending users
-    @GetMapping("/pending")
-    public ApiResponse<List<User>> getPendingUsers() {
-        return ApiResponse.ok("Pending users",
-                userService.getUsersByStatus("pending"));
-    }
-
-    // POST /users/register - creates a new borrower account
-    @PostMapping("/register")
-    public ApiResponse<User> register(@RequestBody User user) {
-
-        // Check if email exists before creating
-        if  (userService.findByEmail(user.getEmail()).isPresent()) {
-            return ApiResponse.error("Email already exists");
+    // GET /users/me - returns the logged-in borrower's own profile
+    @GetMapping("/me")
+    public ResponseEntity<ApiResponse<User>> getProfile(Authentication auth) {
+        try {
+           String userId = (String) auth.getPrincipal();
+           return userService.getUserById(userId)
+                   .map( u -> {
+                       u.setPasswordHash(null);
+                       return ResponseEntity.ok(ApiResponse.ok("OK", u));
+                   })
+                   .orElse(ResponseEntity.notFound().build());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error(e.getMessage()));
         }
-
-        User created = userService.createUser(user);
-        // Never send password hash back to client
-        created.setPasswordHash(null);
-        return ApiResponse.ok("User created", created);
     }
 
-    // PUT /users/{id}/approve - admin approves a pending user
-    @PutMapping("/{id}/approve")
-    public ApiResponse<Void> approveUser(@PathVariable String id) {
-
-        boolean done = userService.approveUser(id);
-        if (done) return ApiResponse.ok("User approved", null);
-        return ApiResponse.error("User not found");
+    // PUT /users/me - borrower updates their own profile info
+    @PutMapping("/me")
+    public ResponseEntity<ApiResponse<Void>> updateProfile(
+            @RequestBody Map<String, String> body, Authentication auth) {
+        try {
+            String userId = (String) auth.getPrincipal();
+            userService.updateProfile(userId, body.get("fulName"), body.get("Phone"));
+            return ResponseEntity.ok(ApiResponse.ok("Profile updated", null));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()));
+        }
     }
 
-    // PUT /users/{id}/suspend - admin suspends a user
-    @PutMapping("/{id}/suspend")
-    public ApiResponse<Void> suspendUser(@PathVariable String id) {
-        boolean done = userService.suspendUser(id);
-        if (done) return ApiResponse.ok("User suspended", null);
-        return ApiResponse.error("User not found");
+    // GET /users/admin/all - returns every user in the system
+    @GetMapping("/admin/all")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ApiResponse<List<User>>> allUsers() {
+        try {
+            List<User> users = userService.getAllUsers();
+            users.forEach(u -> u.setPasswordHash(null));
+            return ResponseEntity.ok(ApiResponse.ok("OK", users));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error(e.getMessage()));
+        }
     }
+
+    // GET/users/admin/pending - returns accounts waiting for approval
+    @GetMapping("/admin/pending")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ApiResponse<List<User>>> pendingUsers(){
+        try {
+            List<User> users = userService.getPendingUsers();
+            users.forEach(u -> u.setPasswordHash(null));
+            return ResponseEntity.ok(ApiResponse.ok("OK", users));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ApiResponse.error(e.getMessage()));
+        }
+    }
+
+    // POST /users/admin/{userId}/approve - admin approves a pending borrower account
+    @PostMapping("/admin/{userId}/approve")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ApiResponse<User>> approveUser(@PathVariable String userId) {
+        try {
+            User user = userService.approveUser(userId);
+            user.setPasswordHash(null);
+            return ResponseEntity.ok(ApiResponse.ok("User approved", user));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()));
+        }
+    }
+
+    // POST /users/admin/{userId}/suspend - admin suspends a borrower account
+    @PostMapping("/admin/{userId}/suspend")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ApiResponse<User>> suspendUser(@PathVariable String userId) {
+        try {
+            User user = userService.suspendUser(userId);
+            user.setPasswordHash(null);
+            return ResponseEntity.ok(ApiResponse.ok("User suspended", user));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()));
+        }
+    }
+
+    // POST /users/admin/{userId}/reactivate - admin reactivates a suspended account
+    @PostMapping("/admin/{userId}/reactivate")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ApiResponse<User>> reactivateUser(@PathVariable String userId) {
+        try {
+            User user = userService.reactivateUser(userId);
+            user.setPasswordHash(null);
+            return ResponseEntity.ok(ApiResponse.ok("User reactivated", user));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()));
+        }
+    }
+
 }
