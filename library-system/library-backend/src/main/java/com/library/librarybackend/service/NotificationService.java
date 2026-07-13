@@ -32,7 +32,7 @@ public class NotificationService {
     }
 
     // Returns all notifications for a user sorted newest first
-    public List<Notification> getUserNoticications(String userId)
+    public List<Notification> getUserNotifications(String userId)
     throws ExecutionException, InterruptedException {
         return notificationRepository.findByUserId(userId);
     }

@@ -24,7 +24,7 @@ public class NotificationController {
         try {
             String userId = (String) auth.getPrincipal();
             return ResponseEntity.ok(ApiResponse.ok("OK",
-                    notificationService.getUserNoticications(userId)));
+                    notificationService.getUserNotifications(userId)));
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(ApiResponse.error(e.getMessage()));
         }
