@@ -54,7 +54,7 @@ public class SecurityConfig {
 
                                 // Logged-in borrowers only
                                 .requestMatchers(HttpMethod.GET,     "/loans/mine").authenticated()
-                                .requestMatchers(HttpMethod.GET,     "holds/mine").authenticated()
+                                .requestMatchers(HttpMethod.GET,     "/holds/mine").authenticated()
                                 .requestMatchers(HttpMethod.POST,    "/holds").authenticated()
                                 .requestMatchers(HttpMethod.DELETE,  "/holds/{id}").authenticated()
                                 .requestMatchers(HttpMethod.GET,     "/notifications/**").authenticated()
