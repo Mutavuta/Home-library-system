@@ -1,22 +1,29 @@
 package com.library.admin.model;
 
+import com.google.gson.annotations.SerializedName;
 
 public class Book {
 
+    @SerializedName("barcodeId")
     private String barcodeId;
+
+    @SerializedName("titleId")
     private String titleId;
+
+    @SerializedName("title")
     private String title;
+
+    @SerializedName("author")
     private String author;
+
+    @SerializedName("status")
     private String status;
+
+    @SerializedName("currentHolderId")
     private String currentHolderId;
+
+    @SerializedName("dateAdded")
     private String dateAdded;
 
-    public String getBarcodeId()       { return barcodeId; }
-    public String getTitleId()         { return titleId; }
-    public String getTitle()           { return title; }
-    public String getAuthor()          { return author; }
-    public String getStatus()          { return status; }
-    public String getCurrentHolderId() { return currentHolderId; }
-    public String getDateAdded()       { return dateAdded; }
 
 }
