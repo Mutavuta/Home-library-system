@@ -5,25 +5,25 @@ import com.google.gson.annotations.SerializedName;
 public class Book {
 
     @SerializedName("barcodeId")
-    private String barcodeId;
+    public String barcodeId;
 
     @SerializedName("titleId")
-    private String titleId;
+    public String titleId;
 
     @SerializedName("title")
-    private String title;
+    public String title;
 
     @SerializedName("author")
-    private String author;
+    public String author;
 
     @SerializedName("status")
-    private String status;
+    public String status;
 
     @SerializedName("currentHolderId")
-    private String currentHolderId;
+    public String currentHolderId;
 
     @SerializedName("dateAdded")
-    private String dateAdded;
+    public String dateAdded;
 
 
 }

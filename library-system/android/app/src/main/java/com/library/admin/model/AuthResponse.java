@@ -6,19 +6,19 @@ import com.google.gson.annotations.SerializedName;
 public class AuthResponse {
 
     @SerializedName("token")
-    private String token;
+    public String token;
 
     @SerializedName("userId")
-    private String userId;
+    public String userId;
 
     @SerializedName("role")
-    private String role;
+    public String role;
 
     @SerializedName("fullName")
-    private String fullName;
+    public String fullName;
 
     @SerializedName("status")
-    private String status;
+    public String status;
 
 
 }

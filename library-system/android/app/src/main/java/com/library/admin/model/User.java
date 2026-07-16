@@ -6,25 +6,25 @@ import com.google.gson.annotations.SerializedName;
 public class User {
 
     // Firestore document ID
-    private String id;
+    public String id;
 
     @SerializedName("fullName")
-    private String fullName;
+    public String fullName;
 
     @SerializedName("email")
-    private String email;
+    public String email;
 
     @SerializedName("phone")
-    private String phone;
+    public String phone;
 
     @SerializedName("role")
-    private String role;
+    public String role;
 
     @SerializedName("status")
-    private String status;
+    public String status;
 
     @SerializedName("createdAt")
-    private String createdAt;
+    public String createdAt;
 
 
 }

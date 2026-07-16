@@ -6,10 +6,10 @@ import com.google.gson.annotations.SerializedName;
 public class AuthRequest {
 
     @SerializedName("email")
-    private String email;
+    public String email;
 
     @SerializedName("password")
-    private String password;
+    public String password;
 
     public AuthRequest(String email, String password) {
         this.email    = email;
