@@ -1,9 +1,87 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.HomeLibraryAdmin" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+    <!-- Main app theme - dark green throughout -->
+    <style name="Theme.HomeLibraryAdmin" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/dark_green</item>
+        <item name="colorPrimaryVariant">@color/card_green</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSurface">@color/card_green</item>
+        <item name="colorOnSurface">@color/white</item>
+        <item name="android:windowBackground">@color/dark_green</item>
+        <item name="android:statusBarColor">@color/dark_green</item>
+        <item name="android:navigationBarColor">@color/dark_green</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/hint_white</item>
     </style>
 
-    <style name="Theme.HomeLibraryAdmin" parent="Base.Theme.HomeLibraryAdmin" />
+    <!-- Theme for popup/dialog screens - white background -->
+    <style name="Theme.HomeLibraryAdmin.Dialog" parent="Theme.MaterialComponents.Light.Dialog">
+        <item name="colorPrimary">@color/dark_green</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="android:windowBackground">@color/white_background</item>
+        <item name="android:textColorPrimary">@color/dark_text</item>
+        <item name="android:textColorSecondary">@color/dark_text</item>
+        <item name="android:windowMinWidthMajor">90%</item>
+        <item name="android:windowMinWidthMinor">90%</item>
+    </style>
+
+    <!-- Filled black button used throughout the app -->
+    <style name="Widget.HomeLibrary.Button.Black" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/black</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">15sp</item>
+        <item name="cornerRadius">24dp</item>
+        <item name="android:paddingTop">14dp</item>
+        <item name="android:paddingBottom">14dp</item>
+    </style>
+
+    <!-- Outlined white button used throughout the app -->
+    <style name="Widget.HomeLibrary.Button.Outline" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="strokeColor">@color/white</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">15sp</item>
+        <item name="cornerRadius">24dp</item>
+        <item name="android:paddingTop">14dp</item>
+        <item name="android:paddingBottom">14dp</item>
+    </style>
+
+    <!-- Outlined dark button used on white popup screens -->
+    <style name="Widget.HomeLibrary.Button.Outline.Dark" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="strokeColor">@color/dark_green</item>
+        <item name="android:textColor">@color/dark_green</item>
+        <item name="android:textSize">15sp</item>
+        <item name="cornerRadius">24dp</item>
+        <item name="android:paddingTop">14dp</item>
+        <item name="android:paddingBottom">14dp</item>
+    </style>
+
+    <!-- Card style for the dark green screens -->
+    <style name="Widget.HomeLibrary.Card" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/card_green</item>
+        <item name="cardCornerRadius">12dp</item>
+        <item name="cardElevation">0dp</item>
+    </style>
+
+    <!-- Text input field style for login/auth screens -->
+    <style name="Widget.HomeLibrary.TextInput" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/white</item>
+        <item name="hintTextColor">@color/hint_white</item>
+        <item name="android:textColorHint">@color/hint_white</item>
+        <item name="boxCornerRadiusTopStart">12dp</item>
+        <item name="boxCornerRadiusTopEnd">12dp</item>
+        <item name="boxCornerRadiusBottomStart">12dp</item>
+        <item name="boxCornerRadiusBottomEnd">12dp</item>
+    </style>
+
+    <!-- Text input field style for white popup screens -->
+    <style name="Widget.HomeLibrary.TextInput.Dark" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/dark_green</item>
+        <item name="hintTextColor">@color/dark_text</item>
+        <item name="android:textColorHint">@color/dark_text</item>
+        <item name="boxCornerRadiusTopStart">12dp</item>
+        <item name="boxCornerRadiusTopEnd">12dp</item>
+        <item name="boxCornerRadiusBottomStart">12dp</item>
+        <item name="boxCornerRadiusBottomEnd">12dp</item>
+    </style>
+
 </resources>
