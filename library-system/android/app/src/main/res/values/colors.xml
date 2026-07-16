@@ -1,5 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!-- Primary dark green - main background color throughout the app -->
+    <color name="dark_green">#1B3A1B</color>
+
+    <!-- Medium green - used for cards and list items -->
+    <color name="card_green">#2D6A2D</color>
+
+    <!-- Lighter green - used for selected/active nav items and tab indicators -->
+    <color name="light_green">#3D8B3D</color>
+
+    <!-- Black - filled button background -->
+    <color name="black">#000000</color>
+
+    <!-- White - all text, icons, outlines -->
+    <color name="white">#FFFFFF</color>
+
+    <!-- Red - overdue loans and alert counts -->
+    <color name="overdue_red">#E53935</color>
+
+    <!-- Muted white - placeholder text and secondary labels -->
+    <color name="hint_white">#80FFFFFF</color>
+
+    <!-- White background - used for popup/dialog screens -->
+    <color name="white_background">#FFFFFF</color>
+
+    <!-- Dark text - used on white popup screens -->
+    <color name="dark_text">#1B1B1B</color>
+
+    <!-- Light grey - dividers and borders on popup screens -->
+    <color name="light_grey">#E0E0E0</color>
 </resources>
