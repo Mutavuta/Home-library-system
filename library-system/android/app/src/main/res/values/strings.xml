@@ -1,3 +1,71 @@
 <resources>
-    <string name="app_name">Home Library Admin</string>
+
+    <string name="app_name">Home Library</string>
+
+    <!-- Auth screens -->
+    <string name="label_email">Email</string>
+    <string name="label_password">Password</string>
+    <string name="label_confirm_password">Confirm password</string>
+    <string name="label_full_name">Full Name</string>
+    <string name="label_phone">Phone Number</string>
+    <string name="btn_continue">Continue</string>
+    <string name="text_terms">By clicking continue, you agree to our <b>Terms of Service</b> and <b>Privacy Policy</b></string>
+    <string name="hint_email">email@domain.com</string>
+    <string name="title_admin_login">Library Admin</string>
+    <string name="subtitle_admin_login">Admin access only</string>
+    <string name="title_bootstrap">Create an Admin account</string>
+    <string name="subtitle_bootstrap">Enter your details to set up Library Admin</string>
+
+    <!-- Bottom navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_books">Books</string>
+    <string name="nav_holds">Holds</string>
+    <string name="nav_loans">Loans</string>
+    <string name="nav_profile">Profile</string>
+
+    <!-- Dashboard -->
+    <string name="label_book_titles">Book Titles</string>
+    <string name="label_available">Available</string>
+    <string name="label_reserved">Reserved</string>
+    <string name="label_on_loan">On Loan</string>
+    <string name="label_overdue_loans">Overdue Loans</string>
+    <string name="label_pending_users">Pending Users</string>
+    <string name="label_all_books">All Books</string>
+    <string name="label_all_users">All Users</string>
+    <string name="label_overview">Overview</string>
+
+    <!-- Books screen -->
+    <string name="hint_search_books">Search Title or Author</string>
+    <string name="btn_scan_barcode">Scan Barcode</string>
+    <string name="label_copies">Copies</string>
+
+    <!-- Holds screen -->
+    <string name="tab_pending">Pending</string>
+    <string name="tab_approved">Approved</string>
+    <string name="tab_all">All</string>
+    <string name="btn_approve">Approve</string>
+    <string name="btn_expire">Expire</string>
+    <string name="label_no_copy_assigned">No Copy Assigned</string>
+    <string name="label_copy">Copy: </string>
+
+    <!-- Loans screen -->
+    <string name="btn_confirm_loan">Confirm Loan</string>
+    <string name="btn_scan_to_return">Scan to Return</string>
+    <string name="tab_active_loans">Active Loans</string>
+    <string name="tab_overdue_list">Overdue List</string>
+    <string name="label_due">Due: </string>
+    <string name="label_active">Active</string>
+    <string name="label_overdue">Overdue</string>
+
+    <!-- Users screen -->
+    <string name="tab_pending_approval">Pending Approval</string>
+    <string name="tab_all_users">All Users</string>
+    <string name="btn_suspend">Suspend</string>
+    <string name="btn_reactivate">Reactivate</string>
+
+    <!-- General -->
+    <string name="label_loading">Loading...</string>
+    <string name="label_error">Something went wrong. Please try again.</string>
+    <string name="label_no_data">Nothing to show here</string>
+
 </resources>
