@@ -29,4 +29,8 @@
 
     <!-- Light grey - dividers and borders on popup screens -->
     <color name="light_grey">#E0E0E0</color>
+
+    <!-- Nav bar background color -->
+    <color name="nav_back">#142C04</color>
+
 </resources>
