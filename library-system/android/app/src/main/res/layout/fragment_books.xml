@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/dark_green">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- Header -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_books_header"
+            android:textSize="@dimen/text_title"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="@dimen/header_top_padding"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Search bar - the pill row for this screen -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="24dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardElevation="0dp">
+
+            <EditText
+                android:id="@+id/etSearch"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="@string/hint_search_books"
+                android:textColorHint="@color/dark_text"
+                android:textColor="@color/dark_text"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:background="@null"
+                android:singleLine="true"
+                android:inputType="text"
+                android:gravity="center_vertical"/>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Outer content card - touches bottom of screen -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_card_top_rounded">
+
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swipeRefresh"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerBooks"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="12dp"
+                    android:paddingBottom="@dimen/content_bottom_padding_extra"
+                    android:clipToPadding="false"/>
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <!-- Scan Barcode - floats above the card content, sits just above the nav bar -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnScanBarcode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="@dimen/floating_element_bottom_margin"
+        android:text="@string/btn_scan_barcode"
+        style="@style/Widget.HomeLibrary.Button.Outline"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/dark_text"
+        app:icon="@drawable/ic_scan"
+        app:iconTint="@color/dark_text"
+        app:iconGravity="textStart"/>
+
+</FrameLayout>

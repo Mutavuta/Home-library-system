@@ -32,4 +32,6 @@
     <dimen name="content_bottom_padding_extra">150dp</dimen>
     <!-- How far above the nav a floating button/toggle row sits -->
     <dimen name="floating_element_bottom_margin">88dp</dimen>
+    <!-- Space above screen header -->
+    <dimen name="header_top_padding">44dp</dimen>
 </resources>
