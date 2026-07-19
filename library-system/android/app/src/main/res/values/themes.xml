@@ -38,11 +38,12 @@
     <!-- Outlined white button used throughout the app -->
     <style name="Widget.HomeLibrary.Button.Outline" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="strokeColor">@color/white</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:backgroundTint">@color/white</item>
         <item name="android:textSize">15sp</item>
         <item name="cornerRadius">24dp</item>
-        <item name="android:paddingTop">14dp</item>
-        <item name="android:paddingBottom">14dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
     </style>
 
     <!-- Outlined dark button used on white popup screens -->
@@ -88,7 +89,7 @@
     <style name="Widget.HomeLibrary.Button.Black.Small" parent="Widget.MaterialComponents.Button">
         <item name="backgroundTint">@color/black</item>
         <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">13sp</item>
+        <item name="android:textSize">10sp</item>
         <item name="cornerRadius">18dp</item>
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
@@ -102,7 +103,7 @@
     <style name="Widget.HomeLibrary.Button.Outline.Small" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="strokeColor">@color/white</item>
         <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">13sp</item>
+        <item name="android:textSize">10sp</item>
         <item name="cornerRadius">18dp</item>
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
@@ -116,7 +117,7 @@
     <style name="Widget.HomeLibrary.Button.White.Small" parent="Widget.MaterialComponents.Button">
         <item name="backgroundTint">@color/white</item>
         <item name="android:textColor">@color/dark_text</item>
-        <item name="android:textSize">13sp</item>
+        <item name="android:textSize">10sp</item>
         <item name="cornerRadius">18dp</item>
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>

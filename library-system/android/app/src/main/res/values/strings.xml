@@ -57,7 +57,7 @@
 
     <!-- Loans screen -->
     <string name="btn_confirm_loan">Confirm Loan</string>
-    <string name="btn_scan_to_return">Scan to Return</string>
+    <string name="btn_scan_to_return">Scan Return</string>
     <string name="tab_active_loans">Active Loans</string>
     <string name="tab_overdue_list">Overdue List</string>
     <string name="label_due">Due: </string>
