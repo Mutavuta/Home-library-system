@@ -21,4 +21,15 @@
     <dimen name="text_large">20sp</dimen>
     <dimen name="text_title">24sp</dimen>
     <dimen name="stat_number">36sp</dimen>
+
+    <!-- Bottom nav floating margins -->
+    <dimen name="nav_side_margin">16dp</dimen>
+    <dimen name="nav_bottom_margin">12dp</dimen>
+
+    <!-- Bottom padding for scrollable content so the floating nav never covers the last item -->
+    <dimen name="content_bottom_padding">80dp</dimen>
+    <!-- Extra padding for screens that also have a floating button/toggle row above the nav -->
+    <dimen name="content_bottom_padding_extra">150dp</dimen>
+    <!-- How far above the nav a floating button/toggle row sits -->
+    <dimen name="floating_element_bottom_margin">88dp</dimen>
 </resources>

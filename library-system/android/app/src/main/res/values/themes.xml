@@ -64,7 +64,7 @@
 
     <!-- Text input field style for login/auth screens -->
     <style name="Widget.HomeLibrary.TextInput" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="boxStrokeColor">@color/white</item>
+        <item name="boxStrokeColor">@color/text_input_stroke_color</item>
         <item name="hintTextColor">@color/hint_white</item>
         <item name="android:textColorHint">@color/hint_white</item>
         <item name="boxCornerRadiusTopStart">12dp</item>

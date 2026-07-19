@@ -16,6 +16,13 @@
     <string name="title_bootstrap">Create an Admin account</string>
     <string name="subtitle_bootstrap">Enter your details to set up Library Admin</string>
 
+    <!-- Screen titles -->
+    <string name="title_dashboard_header">Home Library</string>
+    <string name="title_books_header">Books</string>
+    <string name="title_holds_header">Hold Management</string>
+    <string name="title_loans_header">Loans</string>
+    <string name="title_users_header">Users</string>
+
     <!-- Bottom navigation -->
     <string name="nav_home">Home</string>
     <string name="nav_books">Books</string>

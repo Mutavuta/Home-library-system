@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Reusable stat card used on the dashboard -->
+<!-- Number and label are set programmatically in DashboardFragment -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="100dp"
+    android:layout_height="60dp"
+    android:orientation="vertical"
+    android:gravity="center_vertical"
+    android:background="@color/card_green"
+    android:padding="@dimen/spacing_medium">
+
+    <!-- The big number - e.g. "12" -->
+    <TextView
+        android:id="@+id/tvStatNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textSize="@dimen/stat_number"
+        android:textStyle="bold"
+        android:textColor="@color/white"/>
+
+    <!-- The label below the number - e.g. "Book Titles" -->
+    <TextView
+        android:id="@+id/tvStatLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_body"
+        android:textColor="@color/hint_white"/>
+
+</LinearLayout>

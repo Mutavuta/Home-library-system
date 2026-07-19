@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Primary dark green - main background color throughout the app -->
-    <color name="dark_green">#1B3A1B</color>
+    <color name="dark_green">#0E4621</color>
 
     <!-- Medium green - used for cards and list items -->
     <color name="card_green">#2D6A2D</color>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- White when the field is focused, hint_white otherwise -->
+<!-- Fixes the text box outline defaulting to black when not focused -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:color="@color/white" android:state_focused="true"/>
+    <item android:color="@color/hint_white"/>
+</selector>

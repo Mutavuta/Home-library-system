@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/dark_green">
+
+    <!-- Header: app name + date -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginBottom="16dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/title_dashboard_header"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_title"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_body"
+            android:textColor="@color/white"/>
+
+    </LinearLayout>
+
+    <!-- Pill row - just text for the dashboard -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="20dp"
+        app:cardBackgroundColor="@color/black"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_overview"
+            android:textSize="@dimen/text_medium"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"/>
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- Outer content card - light green, rounded top only, touches bottom of screen -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/bg_card_top_rounded">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/content_bottom_padding">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <!-- Row 1: Book Titles & Available -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="12dp">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="0dp" android:layout_height="100dp" android:layout_weight="1"
+                        android:layout_marginEnd="6dp" app:cardCornerRadius="12dp"
+                        app:cardBackgroundColor="@color/dark_green">
+                        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                            android:orientation="vertical" android:gravity="center">
+                            <TextView android:id="@+id/tvBookTitles"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="0" android:textSize="24sp" android:textStyle="bold" android:textColor="@color/white"/>
+                            <TextView
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="@string/label_book_titles" android:textSize="14sp" android:textColor="@color/white"/>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="0dp" android:layout_height="100dp" android:layout_weight="1"
+                        android:layout_marginStart="6dp" app:cardCornerRadius="12dp"
+                        app:cardBackgroundColor="@color/dark_green">
+                        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                            android:orientation="vertical" android:gravity="center">
+                            <TextView android:id="@+id/tvAvailable"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="0" android:textSize="24sp" android:textStyle="bold" android:textColor="@color/white"/>
+                            <TextView
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="@string/label_available" android:textSize="14sp" android:textColor="@color/white"/>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
+
+                <!-- Row 2: Reserved & On Loan -->
+                <LinearLayout
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:weightSum="2" android:layout_marginBottom="12dp">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="0dp" android:layout_height="100dp" android:layout_weight="1"
+                        android:layout_marginEnd="6dp" app:cardCornerRadius="12dp"
+                        app:cardBackgroundColor="@color/dark_green">
+                        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                            android:orientation="vertical" android:gravity="center">
+                            <TextView android:id="@+id/tvReserved"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="0" android:textSize="24sp" android:textStyle="bold" android:textColor="@color/white"/>
+                            <TextView
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="@string/label_reserved" android:textSize="14sp" android:textColor="@color/white"/>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="0dp" android:layout_height="100dp" android:layout_weight="1"
+                        android:layout_marginStart="6dp" app:cardCornerRadius="12dp"
+                        app:cardBackgroundColor="@color/dark_green">
+                        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                            android:orientation="vertical" android:gravity="center">
+                            <TextView android:id="@+id/tvOnLoan"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="0" android:textSize="24sp" android:textStyle="bold" android:textColor="@color/white"/>
+                            <TextView
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="@string/label_on_loan" android:textSize="14sp" android:textColor="@color/white"/>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
+
+                <!-- Row 3: Overdue Loans & Pending Users -->
+                <LinearLayout
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:weightSum="2" android:layout_marginBottom="12dp">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="0dp" android:layout_height="100dp" android:layout_weight="1"
+                        android:layout_marginEnd="6dp" app:cardCornerRadius="12dp"
+                        app:cardBackgroundColor="@color/dark_green">
+                        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                            android:orientation="vertical" android:gravity="center">
+                            <TextView android:id="@+id/tvOverdueLoans"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="0" android:textSize="24sp" android:textStyle="bold" android:textColor="@color/overdue_red"/>
+                            <TextView
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="@string/label_overdue_loans" android:textSize="14sp" android:textColor="@color/overdue_red"/>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="0dp" android:layout_height="100dp" android:layout_weight="1"
+                        android:layout_marginStart="6dp" app:cardCornerRadius="12dp"
+                        app:cardBackgroundColor="@color/dark_green">
+                        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                            android:orientation="vertical" android:gravity="center">
+                            <TextView android:id="@+id/tvPendingUsers"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="0" android:textSize="24sp" android:textStyle="bold" android:textColor="@color/white"/>
+                            <TextView
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="@string/label_pending_users" android:textSize="14sp" android:textColor="@color/white"/>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
+
+                <!-- Row 4: All Books & All Users -->
+                <LinearLayout
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:weightSum="2">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="0dp" android:layout_height="100dp" android:layout_weight="1"
+                        android:layout_marginEnd="6dp" app:cardCornerRadius="12dp"
+                        app:cardBackgroundColor="@color/dark_green">
+                        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                            android:orientation="vertical" android:gravity="center">
+                            <TextView android:id="@+id/tvAllBooks"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="0" android:textSize="24sp" android:textStyle="bold" android:textColor="@color/white"/>
+                            <TextView
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="@string/label_all_books" android:textSize="14sp" android:textColor="@color/white"/>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="0dp" android:layout_height="100dp" android:layout_weight="1"
+                        android:layout_marginStart="6dp" app:cardCornerRadius="12dp"
+                        app:cardBackgroundColor="@color/dark_green">
+                        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                            android:orientation="vertical" android:gravity="center">
+                            <TextView android:id="@+id/tvAllUsers"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="0" android:textSize="24sp" android:textStyle="bold" android:textColor="@color/white"/>
+                            <TextView
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="@string/label_all_users" android:textSize="14sp" android:textColor="@color/white"/>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
+    </FrameLayout>
+
+</LinearLayout>
