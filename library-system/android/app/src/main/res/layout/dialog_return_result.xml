@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/white_background"
+    android:padding="20dp"
+    android:gravity="center">
+
+    <TextView
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="Book Returned"
+        android:textSize="18sp" android:textStyle="bold"
+        android:textColor="@color/dark_text"
+        android:layout_marginBottom="16dp"/>
+
+    <TextView android:id="@+id/tvBookTitle"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:textSize="16sp" android:textStyle="bold"
+        android:textColor="@color/dark_text"
+        android:gravity="center"
+        android:layout_marginBottom="4dp"/>
+
+    <TextView android:id="@+id/tvBorrowerName"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:textSize="14sp" android:textColor="@color/dark_text"
+        android:gravity="center"
+        android:layout_marginBottom="4dp"/>
+
+    <!-- Shown only if someone on the waitlist was notified about this return -->
+    <TextView android:id="@+id/tvWaitlistNotice"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:textSize="13sp" android:textColor="@color/dark_text"
+        android:gravity="center"
+        android:layout_marginTop="8dp"
+        android:visibility="gone"/>
+
+    <Button android:id="@+id/btnClose"
+        android:layout_width="match_parent" android:layout_height="48dp"
+        android:text="Done"
+        style="@style/Widget.HomeLibrary.Button.Black"
+        android:layout_marginTop="20dp"/>
+
+</LinearLayout>

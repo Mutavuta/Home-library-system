@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white_background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="Confirm Loan"
+            android:textSize="18sp" android:textStyle="bold"
+            android:textColor="@color/dark_text"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Summary of the hold being confirmed - filled in programmatically -->
+        <TextView android:id="@+id/tvBorrowerName"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:textSize="15sp" android:textStyle="bold"
+            android:textColor="@color/dark_text"
+            android:layout_marginBottom="2dp"/>
+
+        <TextView android:id="@+id/tvBookTitle"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:textSize="14sp" android:textColor="@color/dark_text"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Barcode confirmation - admin scans or types to verify correct copy -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:hint="Scanned Barcode"
+            style="@style/Widget.HomeLibrary.TextInput.Dark"
+            android:layout_marginBottom="14dp">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etBarcode"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:inputType="text"
+                android:textColor="@color/dark_text"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Due date - opens Android's built-in date picker on tap, not a custom screen -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:hint="Due Date"
+            style="@style/Widget.HomeLibrary.TextInput.Dark"
+            android:layout_marginBottom="20dp">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etDueDate"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:inputType="none"
+                android:focusable="false"
+                android:textColor="@color/dark_text"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Action buttons -->
+        <LinearLayout
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button android:id="@+id/btnCancel"
+                android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1"
+                android:text="Cancel"
+                style="@style/Widget.HomeLibrary.Button.Black"
+                android:layout_marginEnd="10dp"/>
+
+            <Button android:id="@+id/btnConfirm"
+                android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1"
+                android:text="Confirm Loan"
+                style="@style/Widget.HomeLibrary.Button.Outline.Dark"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

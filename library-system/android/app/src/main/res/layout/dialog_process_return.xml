@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/white_background"
+    android:padding="20dp">
+
+    <TextView
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="Process Return"
+        android:textSize="18sp" android:textStyle="bold"
+        android:textColor="@color/dark_text"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Barcode that was scanned - editable in case of a misread -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:hint="Scanned Barcode"
+        style="@style/Widget.HomeLibrary.TextInput.Dark"
+        android:layout_marginBottom="16dp">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etBarcode"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:inputType="text"
+            android:textColor="@color/dark_text"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Book details fetched after barcode lookup - hidden until lookup succeeds -->
+    <LinearLayout android:id="@+id/llBookInfo"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/bg_status_badge"
+        android:padding="14dp"
+        android:layout_marginBottom="16dp"
+        android:visibility="gone">
+
+        <TextView android:id="@+id/tvBookTitle"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:textSize="15sp" android:textStyle="bold"
+            android:textColor="@color/white"
+            android:layout_marginBottom="2dp"/>
+
+        <TextView android:id="@+id/tvBorrowerName"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:textSize="13sp" android:textColor="@color/white"/>
+
+    </LinearLayout>
+
+    <!-- Shown if the barcode lookup fails or the book has no active loan -->
+    <TextView android:id="@+id/tvError"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:textColor="@color/overdue_red"
+        android:textSize="13sp"
+        android:layout_marginBottom="12dp"
+        android:visibility="gone"/>
+
+    <!-- Action buttons -->
+    <LinearLayout
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button android:id="@+id/btnCancel"
+            android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1"
+            android:text="Cancel"
+            style="@style/Widget.HomeLibrary.Button.Black"
+            android:layout_marginEnd="10dp"/>
+
+        <Button android:id="@+id/btnConfirmReturn"
+            android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1"
+            android:text="Confirm Return"
+            style="@style/Widget.HomeLibrary.Button.Outline.Dark"/>
+
+    </LinearLayout>
+
+</LinearLayout>
