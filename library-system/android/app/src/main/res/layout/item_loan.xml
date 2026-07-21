@@ -14,13 +14,13 @@
         android:orientation="vertical"
         android:padding="14dp">
 
-        <!-- Borrower name + date row -->
+        <!-- Borrower name + status badge row -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginBottom="4dp">
+            android:layout_marginBottom="2dp">
 
             <TextView android:id="@+id/tvBorrowerName"
                 android:layout_width="0dp" android:layout_height="wrap_content"
@@ -28,42 +28,31 @@
                 android:textSize="15sp" android:textStyle="bold"
                 android:textColor="@color/white"/>
 
-            <TextView android:id="@+id/tvDate"
+            <!-- Background color and text set in LoansFragment based on status -->
+            <TextView android:id="@+id/tvStatus"
                 android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:textSize="12sp" android:textColor="@color/hint_white"/>
+                android:textSize="12sp" android:textColor="@color/white"
+                android:background="@drawable/bg_status_badge"
+                android:paddingStart="12dp" android:paddingEnd="12dp"
+                android:paddingTop="4dp" android:paddingBottom="4dp"/>
         </LinearLayout>
 
         <!-- Book title -->
-        <TextView android:id="@+id/tvTitle"
+        <TextView android:id="@+id/tvBookTitle"
             android:layout_width="wrap_content" android:layout_height="wrap_content"
             android:textSize="14sp" android:textColor="@color/white"
             android:layout_marginBottom="2dp"/>
 
-        <!-- Copy assigned or "No Copy Assigned" -->
-        <TextView android:id="@+id/tvAssigned"
+        <!-- Borrower email -->
+        <TextView android:id="@+id/tvBorrowerEmail"
             android:layout_width="wrap_content" android:layout_height="wrap_content"
             android:textSize="13sp" android:textColor="@color/hint_white"
-            android:layout_marginBottom="12dp"/>
+            android:layout_marginBottom="2dp"/>
 
-        <!-- Action buttons - visibility toggled in HoldsFragment based on status -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button android:id="@+id/btnApprove"
-                android:layout_width="0dp" android:layout_height="30dp" android:layout_weight="1"
-                android:text="@string/btn_approve" android:textSize="13sp"
-                style="@style/Widget.HomeLibrary.Button.Outline.Small"
-                android:backgroundTint="@color/white"
-                android:textColor="@color/dark_text"
-                android:layout_marginEnd="8dp"/>
-
-            <Button android:id="@+id/btnExpire"
-                android:layout_width="0dp" android:layout_height="30dp" android:layout_weight="1"
-                android:text="@string/btn_expire" android:textSize="13sp"
-                style="@style/Widget.HomeLibrary.Button.Black.Small"/>
-        </LinearLayout>
+        <!-- Due date - color changes to overdue_red if overdue, set in LoansFragment -->
+        <TextView android:id="@+id/tvDueDate"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:textSize="13sp" android:textColor="@color/hint_white"/>
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

@@ -14,7 +14,7 @@
         android:orientation="vertical"
         android:padding="14dp">
 
-        <!-- Borrower name + date row -->
+        <!-- Name + date row -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -22,10 +22,10 @@
             android:gravity="center_vertical"
             android:layout_marginBottom="4dp">
 
-            <TextView android:id="@+id/tvBorrowerName"
+            <TextView android:id="@+id/tvName"
                 android:layout_width="0dp" android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="15sp" android:textStyle="bold"
+                android:textSize="16sp" android:textStyle="bold"
                 android:textColor="@color/white"/>
 
             <TextView android:id="@+id/tvDate"
@@ -33,36 +33,58 @@
                 android:textSize="12sp" android:textColor="@color/hint_white"/>
         </LinearLayout>
 
-        <!-- Book title -->
-        <TextView android:id="@+id/tvTitle"
+        <!-- Phone -->
+        <TextView android:id="@+id/tvPhone"
             android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:textSize="14sp" android:textColor="@color/white"
+            android:textSize="13sp" android:textColor="@color/white"
             android:layout_marginBottom="2dp"/>
 
-        <!-- Copy assigned or "No Copy Assigned" -->
-        <TextView android:id="@+id/tvAssigned"
+        <!-- Email -->
+        <TextView android:id="@+id/tvEmail"
             android:layout_width="wrap_content" android:layout_height="wrap_content"
             android:textSize="13sp" android:textColor="@color/hint_white"
             android:layout_marginBottom="12dp"/>
 
-        <!-- Action buttons - visibility toggled in HoldsFragment based on status -->
+        <!-- Action buttons - which ones are visible depends on user status,
+     visibility toggled in UsersFragment.java based on status:
+     pending   -> btnApprove + btnSuspend
+     approved  -> btnSuspend only
+     suspended -> btnReactivate + btnDelete -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <Button android:id="@+id/btnApprove"
-                android:layout_width="0dp" android:layout_height="30dp" android:layout_weight="1"
+                android:layout_width="0dp" android:layout_height="40dp" android:layout_weight="1"
                 android:text="@string/btn_approve" android:textSize="13sp"
                 style="@style/Widget.HomeLibrary.Button.Outline.Small"
                 android:backgroundTint="@color/white"
                 android:textColor="@color/dark_text"
-                android:layout_marginEnd="8dp"/>
+                android:layout_marginEnd="8dp"
+                android:visibility="gone"/>
 
-            <Button android:id="@+id/btnExpire"
-                android:layout_width="0dp" android:layout_height="30dp" android:layout_weight="1"
-                android:text="@string/btn_expire" android:textSize="13sp"
-                style="@style/Widget.HomeLibrary.Button.Black.Small"/>
+            <Button android:id="@+id/btnSuspend"
+                android:layout_width="0dp" android:layout_height="40dp" android:layout_weight="1"
+                android:text="@string/btn_suspend" android:textSize="13sp"
+                style="@style/Widget.HomeLibrary.Button.Black.Small"
+                android:visibility="gone"/>
+
+            <Button android:id="@+id/btnReactivate"
+                android:layout_width="0dp" android:layout_height="40dp" android:layout_weight="1"
+                android:text="@string/btn_reactivate" android:textSize="13sp"
+                style="@style/Widget.HomeLibrary.Button.Outline.Small"
+                android:backgroundTint="@color/white"
+                android:textColor="@color/dark_text"
+                android:layout_marginEnd="8dp"
+                android:visibility="gone"/>
+
+            <Button android:id="@+id/btnDelete"
+                android:layout_width="0dp" android:layout_height="40dp" android:layout_weight="1"
+                android:text="@string/btn_delete" android:textSize="13sp"
+                style="@style/Widget.HomeLibrary.Button.Black.Small"
+                android:visibility="gone"/>
+
         </LinearLayout>
 
     </LinearLayout>

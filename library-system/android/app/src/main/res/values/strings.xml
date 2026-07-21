@@ -69,6 +69,7 @@
     <string name="tab_all_users">All Users</string>
     <string name="btn_suspend">Suspend</string>
     <string name="btn_reactivate">Reactivate</string>
+    <string name="btn_delete">Delete</string>
 
     <!-- General -->
     <string name="label_loading">Loading...</string>
