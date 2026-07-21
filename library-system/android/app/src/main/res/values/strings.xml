@@ -76,6 +76,16 @@
     <string name="title_profile_header">Admin Profile</string>
     <string name="btn_logout">Log Out</string>
 
+    <!-- Strings for bootstrap admin -->
+    <string name="link_setup_admin">First time setup? Create admin account</string>
+    <string name="error_admin_only">This app is for admin accounts only.</string>
+    <string name="error_account_suspended">Your account has been suspended.</string>
+    <string name="error_network">Could not reach the server. Check your connection and try again.</string>
+    <string name="error_fill_all_fields">Please fill in all fields.</string>
+    <string name="error_password_mismatch">Passwords do not match.</string>
+    <string name="error_password_short">Password must be at least 6 characters.</string>
+    <string name="msg_admin_created">Admin account created. Please log in.</string>
+
     <!-- General -->
     <string name="label_loading">Loading...</string>
     <string name="label_error">Something went wrong. Please try again.</string>

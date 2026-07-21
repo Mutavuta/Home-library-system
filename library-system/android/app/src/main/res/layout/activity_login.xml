@@ -106,6 +106,21 @@
 
         </LinearLayout>
 
+        <!-- Link to Bootstrap Admin screen - only useful before the first admin exists -->
+        <TextView
+            android:id="@+id/tvSetupAdmin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/link_setup_admin"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            android:gravity="center"
+            android:padding="12dp"
+            android:layout_marginTop="8dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"/>
+
         <!-- Terms text -->
         <TextView
             android:layout_width="wrap_content"
