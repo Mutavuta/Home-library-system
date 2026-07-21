@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="14dp"
+    android:background="?attr/selectableItemBackground">
+
+    <TextView android:id="@+id/tvBorrowerName"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:textSize="15sp" android:textStyle="bold"
+        android:textColor="@color/dark_text"/>
+
+    <TextView android:id="@+id/tvTitle"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:textSize="13sp" android:textColor="@color/dark_text"
+        android:layout_marginTop="2dp"/>
+
+    <TextView android:id="@+id/tvAssignedBarcode"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:textSize="12sp" android:textColor="@color/dark_text"
+        android:layout_marginTop="2dp"/>
+
+    <!-- Thin divider between rows -->
+    <View
+        android:layout_width="match_parent" android:layout_height="1dp"
+        android:background="@color/light_grey"
+        android:layout_marginTop="12dp"/>
+
+</LinearLayout>
