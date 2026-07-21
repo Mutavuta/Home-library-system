@@ -9,7 +9,7 @@
     <dimen name="card_corner_radius">12dp</dimen>
 
     <!-- Bottom navigation height -->
-    <dimen name="bottom_nav_height">64dp</dimen>
+    <dimen name="bottom_nav_height">67dp</dimen>
 
     <!-- Stat card minimum height on dashboard -->
     <dimen name="stat_card_height">100dp</dimen>
@@ -24,7 +24,7 @@
 
     <!-- Bottom nav floating margins -->
     <dimen name="nav_side_margin">16dp</dimen>
-    <dimen name="nav_bottom_margin">22dp</dimen>
+    <dimen name="nav_bottom_margin">28dp</dimen>
 
     <!-- Bottom padding for scrollable content so the floating nav never covers the last item -->
     <dimen name="content_bottom_padding">80dp</dimen>
