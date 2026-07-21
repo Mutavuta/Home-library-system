@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dark_green"
@@ -12,7 +13,7 @@
         android:gravity="center_horizontal"
         android:paddingStart="28dp"
         android:paddingEnd="28dp"
-        android:paddingTop="100dp"
+        android:paddingTop="80dp"
         android:paddingBottom="60dp">
 
         <!-- App title -->
@@ -23,13 +24,13 @@
             android:textSize="@dimen/text_title"
             android:textStyle="bold"
             android:textColor="@color/white"
-            android:layout_marginBottom="80dp"/>
+            android:layout_marginBottom="20dp"/>
 
         <!-- Screen heading -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/title_admin_login"
+            android:text="@string/title_bootstrap"
             android:textSize="@dimen/text_large"
             android:textStyle="bold"
             android:textColor="@color/white"
@@ -39,13 +40,13 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/subtitle_admin_login"
+            android:text="@string/subtitle_bootstrap"
             android:textSize="@dimen/text_body"
             android:textColor="@color/hint_white"
             android:gravity="center"
-            android:layout_marginBottom="32dp"/>
+            android:layout_marginBottom="15dp"/>
 
-        <!-- Grouped form container: email, password, continue button -->
+        <!-- Grouped form container: full name, phone, email, password, confirm, continue button -->
         <LinearLayout
             android:id="@+id/llFormFields"
             android:layout_width="match_parent"
@@ -55,9 +56,43 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="@string/label_full_name"
+                style="@style/Widget.HomeLibrary.TextInput"
+                android:layout_marginBottom="10dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etFullName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapWords"
+                    android:textColor="@color/white"
+                    android:imeOptions="actionNext"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/label_phone"
+                style="@style/Widget.HomeLibrary.TextInput"
+                android:layout_marginBottom="10dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"
+                    android:textColor="@color/white"
+                    android:imeOptions="actionNext"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:hint="@string/hint_email"
                 style="@style/Widget.HomeLibrary.TextInput"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="10dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etEmail"
@@ -75,10 +110,28 @@
                 android:hint="@string/label_password"
                 style="@style/Widget.HomeLibrary.TextInput"
                 app:passwordToggleEnabled="true"
-                android:layout_marginBottom="24dp">
+                android:layout_marginBottom="10dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:textColor="@color/white"
+                    android:imeOptions="actionNext"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/label_confirm_password"
+                style="@style/Widget.HomeLibrary.TextInput"
+                app:passwordToggleEnabled="true"
+                android:layout_marginBottom="15dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etConfirmPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
@@ -87,7 +140,7 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Loading indicator - hidden until login is in progress -->
+            <!-- Loading indicator - hidden until registration is in progress -->
             <ProgressBar
                 android:id="@+id/progressBar"
                 android:layout_width="wrap_content"
@@ -97,7 +150,7 @@
                 android:layout_marginBottom="12dp"/>
 
             <Button
-                android:id="@+id/btnLogin"
+                android:id="@+id/btnContinue"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:text="@string/btn_continue"
@@ -113,7 +166,7 @@
             android:textSize="@dimen/text_small"
             android:textColor="@color/hint_white"
             android:gravity="center"
-            android:layout_marginTop="24dp"/>
+            android:layout_marginTop="20dp"/>
 
     </LinearLayout>
 </ScrollView>

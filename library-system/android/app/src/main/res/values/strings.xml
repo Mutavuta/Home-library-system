@@ -29,6 +29,7 @@
     <string name="nav_holds">Holds</string>
     <string name="nav_loans">Loans</string>
     <string name="nav_profile">Profile</string>
+    <string name="nav_users">Users</string>
 
     <!-- Dashboard -->
     <string name="label_book_titles">Book Titles</string>
@@ -70,6 +71,10 @@
     <string name="btn_suspend">Suspend</string>
     <string name="btn_reactivate">Reactivate</string>
     <string name="btn_delete">Delete</string>
+
+    <!-- Admin profile -->
+    <string name="title_profile_header">Admin Profile</string>
+    <string name="btn_logout">Log Out</string>
 
     <!-- General -->
     <string name="label_loading">Loading...</string>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/dark_green"
+    android:padding="20dp">
+
+    <!-- Header -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/title_profile_header"
+        android:textSize="@dimen/text_title"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="90dp"/>
+
+    <!-- Admin info card -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="12dp"
+        app:cardBackgroundColor="@color/card_green"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_marginBottom="24dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView android:id="@+id/tvFullName"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:textSize="18sp" android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView android:id="@+id/tvEmail"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:textSize="14sp" android:textColor="@color/hint_white"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView android:id="@+id/tvRole"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:textSize="14sp" android:textColor="@color/hint_white"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView android:id="@+id/tvPhone"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:textSize="14sp" android:textColor="@color/hint_white"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView android:id="@+id/tvCreatedAt"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:textSize="14sp" android:textColor="@color/hint_white"/>
+
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Pushes the logout button to the bottom of the screen -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <Button android:id="@+id/btnLogout"
+        android:layout_width="match_parent" android:layout_height="56dp"
+        android:text="@string/btn_logout"
+        style="@style/Widget.HomeLibrary.Button.Black"
+        android:layout_marginBottom="@dimen/floating_element_bottom_margin"/>
+
+</LinearLayout>

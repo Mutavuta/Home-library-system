@@ -24,7 +24,7 @@
 
     <!-- Bottom nav floating margins -->
     <dimen name="nav_side_margin">16dp</dimen>
-    <dimen name="nav_bottom_margin">12dp</dimen>
+    <dimen name="nav_bottom_margin">22dp</dimen>
 
     <!-- Bottom padding for scrollable content so the floating nav never covers the last item -->
     <dimen name="content_bottom_padding">80dp</dimen>

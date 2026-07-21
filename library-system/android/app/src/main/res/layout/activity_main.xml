@@ -11,9 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <!-- Floating bottom nav - fixed position, stays on top of whatever fragment is showing -->
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNav"
+    <!-- Custom floating bottom nav - built from plain containers instead of
+         BottomNavigationView, since that component renders icon/label spacing
+         inconsistently across different phones and Android versions -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_nav_height"
         android:layout_gravity="bottom"
@@ -21,10 +22,95 @@
         android:layout_marginEnd="@dimen/nav_side_margin"
         android:layout_marginBottom="@dimen/nav_bottom_margin"
         android:background="@drawable/bg_nav_floating"
-        app:menu="@menu/bottom_nav_menu"
-        app:itemIconTint="@color/nav_item_color"
-        app:itemTextColor="@color/nav_item_color"
-        app:labelVisibilityMode="labeled"
-        android:elevation="12dp"/>
+        android:orientation="horizontal"
+        android:weightSum="5"
+        android:elevation="12dp">
+
+        <!-- Home -->
+        <LinearLayout android:id="@+id/navItemHome"
+            android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"
+            android:orientation="vertical" android:gravity="center"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true" android:focusable="true">
+
+            <ImageView android:id="@+id/ivHome"
+                android:layout_width="22dp" android:layout_height="22dp"
+                android:src="@drawable/ic_home" app:tint="@color/white"/>
+
+            <TextView android:id="@+id/tvNavHome"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="@string/nav_home" android:textSize="11sp"
+                android:textColor="@color/white" android:layout_marginTop="2dp"/>
+        </LinearLayout>
+
+        <!-- Books -->
+        <LinearLayout android:id="@+id/navItemBooks"
+            android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"
+            android:orientation="vertical" android:gravity="center"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true" android:focusable="true">
+
+            <ImageView android:id="@+id/ivBooks"
+                android:layout_width="22dp" android:layout_height="22dp"
+                android:src="@drawable/ic_book" app:tint="@color/black"/>
+
+            <TextView android:id="@+id/tvNavBooks"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="@string/nav_books" android:textSize="11sp"
+                android:textColor="@color/black" android:layout_marginTop="2dp"/>
+        </LinearLayout>
+
+        <!-- Holds -->
+        <LinearLayout android:id="@+id/navItemHolds"
+            android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"
+            android:orientation="vertical" android:gravity="center"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true" android:focusable="true">
+
+            <ImageView android:id="@+id/ivHolds"
+                android:layout_width="22dp" android:layout_height="22dp"
+                android:src="@drawable/ic_holds" app:tint="@color/black"/>
+
+            <TextView android:id="@+id/tvNavHolds"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="@string/nav_holds" android:textSize="11sp"
+                android:textColor="@color/black" android:layout_marginTop="2dp"/>
+        </LinearLayout>
+
+        <!-- Loans -->
+        <LinearLayout android:id="@+id/navItemLoans"
+            android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"
+            android:orientation="vertical" android:gravity="center"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true" android:focusable="true">
+
+            <ImageView android:id="@+id/ivLoans"
+                android:layout_width="22dp" android:layout_height="22dp"
+                android:src="@drawable/ic_loans" app:tint="@color/black"/>
+
+            <TextView android:id="@+id/tvNavLoans"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="@string/nav_loans" android:textSize="11sp"
+                android:textColor="@color/black" android:layout_marginTop="2dp"/>
+        </LinearLayout>
+
+        <!-- Users -->
+        <LinearLayout android:id="@+id/navItemUsers"
+            android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"
+            android:orientation="vertical" android:gravity="center"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true" android:focusable="true">
+
+            <ImageView android:id="@+id/ivUsers"
+                android:layout_width="22dp" android:layout_height="22dp"
+                android:src="@drawable/ic_profile" app:tint="@color/black"/>
+
+            <TextView android:id="@+id/tvNavUsers"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="@string/nav_users" android:textSize="11sp"
+                android:textColor="@color/black" android:layout_marginTop="2dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
 
 </FrameLayout>
