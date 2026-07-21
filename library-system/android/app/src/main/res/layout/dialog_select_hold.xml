@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/white_background"
+    android:padding="20dp">
+
+    <TextView
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="Select a Hold to Confirm"
+        android:textSize="18sp" android:textStyle="bold"
+        android:textColor="@color/dark_text"
+        android:layout_marginBottom="4dp"/>
+
+    <TextView
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="Only approved holds with an assigned copy are shown."
+        android:textSize="13sp" android:textColor="@color/dark_text"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- List of approved holds - tapping a row proceeds to the Confirm Loan popup -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerApprovedHolds"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:layout_marginBottom="12dp"/>
+
+    <!-- Shown when there are no approved holds waiting -->
+    <TextView android:id="@+id/tvEmpty"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="No approved holds waiting for collection."
+        android:textSize="14sp" android:textColor="@color/dark_text"
+        android:gravity="center"
+        android:padding="20dp"
+        android:visibility="gone"/>
+
+    <Button android:id="@+id/btnCancel"
+        android:layout_width="match_parent" android:layout_height="48dp"
+        android:text="Cancel"
+        style="@style/Widget.HomeLibrary.Button.Black"/>
+
+</LinearLayout>
