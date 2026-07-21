@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white_background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="Add Book"
+            android:textSize="18sp" android:textStyle="bold"
+            android:textColor="@color/dark_text"
+            android:layout_marginBottom="4dp"/>
+
+        <TextView
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="Barcode was scanned. Enter book details below."
+            android:textSize="13sp" android:textColor="@color/dark_text"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Scanned barcode - pre-filled but editable -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:hint="Barcode"
+            style="@style/Widget.HomeLibrary.TextInput.Dark"
+            android:layout_marginBottom="14dp">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etBarcode"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:inputType="text"
+                android:textColor="@color/dark_text"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Mode: new title vs existing title -->
+        <TextView
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="Title group:"
+            android:textSize="13sp" android:textStyle="bold"
+            android:textColor="@color/dark_text"
+            android:layout_marginBottom="8dp"/>
+
+        <RadioGroup android:id="@+id/rgMode"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
+
+            <RadioButton android:id="@+id/rbNew"
+                android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="New title" android:checked="true"
+                android:textColor="@color/dark_text"
+                android:textSize="13sp"/>
+
+            <RadioButton android:id="@+id/rbExisting"
+                android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Add copy to existing"
+                android:textColor="@color/dark_text"
+                android:textSize="13sp"/>
+        </RadioGroup>
+
+        <!-- NEW TITLE fields -->
+        <LinearLayout android:id="@+id/llNewTitle"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:hint="Book Title"
+                style="@style/Widget.HomeLibrary.TextInput.Dark"
+                android:layout_marginBottom="12dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etTitle"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:inputType="textCapWords"
+                    android:textColor="@color/dark_text"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:hint="Author"
+                style="@style/Widget.HomeLibrary.TextInput.Dark"
+                android:layout_marginBottom="12dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etAuthor"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:inputType="textCapWords"
+                    android:textColor="@color/dark_text"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Category - dropdown of fixed categories -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:hint="Category"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                app:boxStrokeColor="@color/dark_green"
+                android:layout_marginBottom="12dp">
+                <AutoCompleteTextView
+                    android:id="@+id/etCategory"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:textColor="@color/dark_text"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:hint="Cover Image URL (optional)"
+                style="@style/Widget.HomeLibrary.TextInput.Dark"
+                android:layout_marginBottom="12dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etCoverUrl"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:inputType="textUri"
+                    android:textColor="@color/dark_text"/>
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <!-- EXISTING TITLE field -->
+        <LinearLayout android:id="@+id/llExistingTitle"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:hint="Select Existing Title"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                app:boxStrokeColor="@color/dark_green"
+                android:layout_marginBottom="12dp">
+                <AutoCompleteTextView
+                    android:id="@+id/etExistingTitle"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:textColor="@color/dark_text"/>
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <!-- Action buttons -->
+        <LinearLayout
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <Button android:id="@+id/btnCancel"
+                android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1"
+                android:text="Cancel"
+                style="@style/Widget.HomeLibrary.Button.Black"
+                android:layout_marginEnd="10dp"/>
+
+            <Button android:id="@+id/btnAdd"
+                android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1"
+                android:text="Add Book"
+                style="@style/Widget.HomeLibrary.Button.Outline.Dark"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

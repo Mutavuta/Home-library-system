@@ -31,8 +31,8 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">15sp</item>
         <item name="cornerRadius">24dp</item>
-        <item name="android:paddingTop">14dp</item>
-        <item name="android:paddingBottom">14dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
     </style>
 
     <!-- Outlined white button used throughout the app -->
@@ -52,8 +52,8 @@
         <item name="android:textColor">@color/dark_green</item>
         <item name="android:textSize">15sp</item>
         <item name="cornerRadius">24dp</item>
-        <item name="android:paddingTop">14dp</item>
-        <item name="android:paddingBottom">14dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
     </style>
 
     <!-- Card style for the dark green screens -->
