@@ -1,25 +1,14 @@
 package com.library.admin.api;
 
-import com.library.admin.model.ApiResponse;
-import com.library.admin.model.AuthRequest;
-import com.library.admin.model.AuthResponse;
-import com.library.admin.model.BookTitle;
-import com.library.admin.model.Book;
-import com.library.admin.model.Hold;
-import com.library.admin.model.Loan;
-import com.library.admin.model.User;
+import com.library.admin.model.*;
+
 
 import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
-import retrofit2.http.Body;
-import retrofit2.http.DELETE;
-import retrofit2.http.GET;
-import retrofit2.http.POST;
-import retrofit2.http.PUT;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
+import retrofit2.http.*;
+
 
 // Defines every backend API call the app can make
 // Retrofit reads these method signatures and builds the actual HTTP calls automatically
@@ -98,6 +87,9 @@ public interface ApiService {
 
     @POST("users/admin/{userId}/reactivate")
     Call<ApiResponse<User>> reactivateUser(@Path("userId") String userId);
+
+    @DELETE("users/admin/{userId}")
+    Call<ApiResponse<Void>> deleteUser(@Path("userId") String userId);
 
     // Dashboard stats
     // These reuse existing endpoints - dashboard aggregates their results
