@@ -24,6 +24,7 @@
             android:textSize="@dimen/text_title"
             android:textStyle="bold"
             android:textColor="@color/white"
+            android:layout_marginTop="@dimen/header_top_padding"
             android:layout_marginBottom="80dp"/>
 
         <!-- Screen heading -->

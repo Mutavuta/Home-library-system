@@ -63,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
 
         btnLogin.setOnClickListener(v -> attemptLogin());
         tvSetupAdmin.setOnClickListener(v ->
-                startActivity(new Intent(this, BootstrapAdminActvity.class)));
+                startActivity(new Intent(this, BootstrapAdminActivity.class)));
     }
 
     // Validates the form, then calls the login API

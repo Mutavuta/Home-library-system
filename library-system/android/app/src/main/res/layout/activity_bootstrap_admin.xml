@@ -24,6 +24,7 @@
             android:textSize="@dimen/text_title"
             android:textStyle="bold"
             android:textColor="@color/white"
+            android:layout_marginTop="@dimen/header_top_padding"
             android:layout_marginBottom="20dp"/>
 
         <!-- Screen heading -->
@@ -44,7 +45,7 @@
             android:textSize="@dimen/text_body"
             android:textColor="@color/hint_white"
             android:gravity="center"
-            android:layout_marginBottom="15dp"/>
+            android:layout_marginBottom="30dp"/>
 
         <!-- Grouped form container: full name, phone, email, password, confirm, continue button -->
         <LinearLayout
