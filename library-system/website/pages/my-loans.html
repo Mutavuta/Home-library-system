@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Loans – Home Library</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<nav class="navbar">
+  <div class="navbar-brand">Home Library</div>
+  <div class="navbar-links">
+    <a href="browse.html">Browse</a>
+    <a href="my-holds.html">My Holds</a>
+    <a href="my-loans.html" class="active">My Loans</a>
+    <a href="notifications.html">🔔</a>
+    <a href="profile.html">Profile</a>
+  </div>
+  <div class="navbar-user">
+    <span id="userName"></span>
+    <button class="btn btn-outline btn-sm" onclick="auth.logout()">Logout</button>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="page-header">
+    <h1>My Loans</h1>
+    <p>Books you currently have and their due dates</p>
+  </div>
+  <div id="loansContent">
+    <div class="empty"><h3>Loading…</h3></div>
+  </div>
+</div>
+
+<script src="../js/api.js"></script>
+<script src="../js/auth.js"></script>
+<script>
+  const today = new Date().toISOString().split('T')[0];
+
+  document.addEventListener('DOMContentLoaded', () => {
+    if (!auth.requireLogin('../index.html')) return;
+    document.getElementById('userName').textContent = auth.name();
+    loadLoans();
+  });
+
+  async function loadLoans() {
+    try {
+      const loans = await api.myLoans();
+      if (!loans.length) {
+        document.getElementById('loansContent').innerHTML = `
+          <div class="empty">
+            <div class="empty-icon">📚</div>
+            <h3>No loans yet</h3>
+            <p>When you borrow a book it will appear here</p>
+          </div>`;
+        return;
+      }
+
+      const active  = loans.filter(l => l.status === 'active' || l.status === 'overdue');
+      const history = loans.filter(l => l.status === 'returned');
+      let html = '';
+
+      if (active.length) {
+        html += `<h2 style="font-size:16px;font-weight:700;margin-bottom:12px;">Currently Borrowed (${active.length})</h2>`;
+        active.forEach(l => {
+          const overdue  = l.dueDate && l.dueDate < today;
+          const daysLeft = daysUntil(l.dueDate);
+          html += `
+            <div class="card fade-up" style="margin-bottom:14px;${overdue ? 'border-color:var(--danger);background:#fef2f2;' : ''}">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;">
+                <div>
+                  <h3 style="font-size:16px;font-weight:700;">${l.titleId}</h3>
+                  <div style="color:var(--text-muted);font-size:13px;margin-top:4px;">
+                    Copy ID: <code style="background:var(--bg);padding:2px 6px;border-radius:4px;">${l.barcodeId}</code>
+                  </div>
+                </div>
+                <div style="text-align:right;">
+                  ${badge(overdue ? 'overdue' : 'active')}
+                  <div style="font-size:13px;margin-top:6px;color:${overdue ? 'var(--danger)' : daysLeft <= 3 ? 'var(--warning)' : 'var(--text-muted)'};">
+                    ${overdue
+                      ? `⚠️ Overdue by ${Math.abs(daysLeft)} day${Math.abs(daysLeft) !== 1 ? 's' : ''}!`
+                      : `Due in ${daysLeft} day${daysLeft !== 1 ? 's' : ''} — ${fmtDate(l.dueDate)}`}
+                  </div>
+                </div>
+              </div>
+              ${overdue ? `<div class="alert alert-danger" style="margin-top:12px;margin-bottom:0;">⚠️ Please return this book as soon as possible.</div>` : ''}
+            </div>`;
+        });
+      }
+
+      if (history.length) {
+        html += `<h2 style="font-size:16px;font-weight:700;margin:24px 0 12px;">Borrowing History</h2>
+        <div class="card" style="padding:0;overflow:hidden;"><div class="table-wrap"><table>
+          <tr><th>Title</th><th>Copy</th><th>Borrowed</th><th>Due</th><th>Returned</th></tr>
+          ${history.map(l => `<tr>
+            <td>${l.titleId}</td>
+            <td><code style="font-size:12px;">${l.barcodeId}</code></td>
+            <td>${fmtDate(l.loanDate)}</td>
+            <td>${fmtDate(l.dueDate)}</td>
+            <td>${fmtDate(l.returnDate)}</td>
+          </tr>`).join('')}
+        </table></div></div>`;
+      }
+
+      document.getElementById('loansContent').innerHTML = html;
+    } catch(e) {
+      document.getElementById('loansContent').innerHTML = `<div class="alert alert-danger">${e.message}</div>`;
+    }
+  }
+
+  function daysUntil(d) {
+    if (!d) return 0;
+    return Math.ceil((new Date(d) - new Date(today)) / (1000*60*60*24));
+  }
+</script>
+</body>
+</html>

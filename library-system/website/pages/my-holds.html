@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Holds – Home Library</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<nav class="navbar">
+  <div class="navbar-brand">Home Library</div>
+  <div class="navbar-links">
+    <a href="browse.html">Browse</a>
+    <a href="my-holds.html" class="active">My Holds</a>
+    <a href="my-loans.html">My Loans</a>
+    <a href="notifications.html">🔔</a>
+    <a href="profile.html">Profile</a>
+  </div>
+  <div class="navbar-user">
+    <span id="userName"></span>
+    <button class="btn btn-outline btn-sm" onclick="auth.logout()">Logout</button>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="page-header">
+    <h1>My Holds</h1>
+    <p>Your book reservations and requests</p>
+  </div>
+  <div id="holdsContent">
+    <div class="empty"><h3>Loading…</h3></div>
+  </div>
+</div>
+
+<script src="../js/api.js"></script>
+<script src="../js/auth.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    if (!auth.requireLogin('../index.html')) return;
+    document.getElementById('userName').textContent = auth.name();
+    loadHolds();
+  });
+
+  async function loadHolds() {
+    try {
+      const holds = await api.myHolds();
+      if (!holds.length) {
+        document.getElementById('holdsContent').innerHTML = `
+          <div class="empty">
+            <div class="empty-icon">📭</div>
+            <h3>No holds yet</h3>
+            <p>Browse books and place a hold to reserve a copy</p>
+            <a href="browse.html" class="btn btn-primary" style="margin-top:16px;">Browse Books</a>
+          </div>`;
+        return;
+      }
+
+      const active = holds.filter(h => ['pending','approved'].includes(h.status));
+      const past   = holds.filter(h => ['collected','abandoned'].includes(h.status));
+      let html = '';
+
+      if (active.length) {
+        html += `<h2 style="font-size:16px;font-weight:700;margin-bottom:12px;">Active Holds (${active.length})</h2>
+        <div class="card" style="padding:0;overflow:hidden;margin-bottom:24px;">
+          <div class="table-wrap"><table>
+            <tr><th>Book</th><th>Requested</th><th>Status</th><th>Assigned Copy</th><th></th></tr>
+            ${active.map(h => `<tr>
+              <td><strong>${h.title}</strong></td>
+              <td>${fmtDate(h.requestDate)}</td>
+              <td>${badge(h.status)}</td>
+              <td>${h.assignedBarcodeId
+                ? `<code style="background:var(--bg);padding:2px 6px;border-radius:4px;font-size:12px;">${h.assignedBarcodeId}</code>`
+                : '—'}</td>
+              <td>${h.status === 'pending'
+                ? `<button class="btn btn-danger btn-sm" onclick="cancelHold('${h.id}','${h.title.replace(/'/g,"\\'")}')">Cancel</button>`
+                : `<span style="color:var(--success);font-weight:600;font-size:13px;">✅ Ready — collect now!</span>`}
+              </td>
+            </tr>`).join('')}
+          </table></div></div>`;
+      }
+
+      if (past.length) {
+        html += `<h2 style="font-size:16px;font-weight:700;margin-bottom:12px;">History</h2>
+        <div class="card" style="padding:0;overflow:hidden;">
+          <div class="table-wrap"><table>
+            <tr><th>Book</th><th>Requested</th><th>Status</th><th>Approved</th></tr>
+            ${past.map(h => `<tr>
+              <td>${h.title}</td>
+              <td>${fmtDate(h.requestDate)}</td>
+              <td>${badge(h.status)}</td>
+              <td>${fmtDate(h.approvedDate)}</td>
+            </tr>`).join('')}
+          </table></div></div>`;
+      }
+
+      document.getElementById('holdsContent').innerHTML = html;
+    } catch(e) {
+      document.getElementById('holdsContent').innerHTML = `<div class="alert alert-danger">${e.message}</div>`;
+    }
+  }
+
+  async function cancelHold(id, title) {
+    if (!confirm(`Cancel hold for "${title}"?`)) return;
+    try { await api.cancelHold(id); toast('Hold cancelled'); loadHolds(); }
+    catch(e) { toast(e.message, 'error'); }
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home Library</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Segoe UI',system-ui,sans-serif;
+         background:linear-gradient(135deg,#667eea,#764ba2);
+         min-height:100vh;display:flex;align-items:center;
+         justify-content:center;padding:20px;}
+    .card{background:#fff;border-radius:20px;padding:40px;
+          max-width:420px;width:100%;box-shadow:0 20px 40px rgba(0,0,0,.22);
+          text-align:center;}
+    .logo{font-size:64px;margin-bottom:14px;}
+    h1{font-size:26px;font-weight:800;color:#4f46e5;margin-bottom:6px;}
+    .sub{color:#64748b;font-size:14px;margin-bottom:32px;line-height:1.5;}
+    .links{display:grid;gap:14px;}
+    a.btn{display:block;padding:16px 20px;border-radius:12px;
+          font-size:15px;font-weight:700;text-decoration:none;
+          transition:transform .15s,box-shadow .15s;}
+    a.btn:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,.15);}
+    .btn-login{background:#4f46e5;color:#fff;}
+    .btn-browse{background:#22c55e;color:#fff;}
+    .status{margin-top:22px;font-size:13px;color:#94a3b8;}
+    #apiStatus{font-weight:700;}
+    #apiStatus.ok{color:#22c55e;}
+    #apiStatus.fail{color:#ef4444;}
+    .desc{font-size:12px;color:#94a3b8;margin-top:6px;}
+  </style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">📚</div>
+  <h1>Home Library</h1>
+  <p class="sub">Borrow books from your neighbourhood collection.<br>Register or sign in to get started.</p>
+
+  <div class="links">
+    <a href="index.html"        class="btn btn-login">🔑 Login / Register</a>
+    <a href="pages/browse.html" class="btn btn-browse">📖 Browse Books</a>
+  </div>
+
+  <div class="status">
+    Server: <span id="apiStatus">Checking…</span>
+  </div>
+  <div class="desc">Both your phone and the library laptop must be on the same Wi-Fi</div>
+</div>
+
+<script>
+  fetch('http://localhost:8080/api/books/titles')
+    .then(() => {
+      const s = document.getElementById('apiStatus');
+      s.textContent = '✅ Online'; s.className = 'ok';
+    })
+    .catch(() => {
+      const s = document.getElementById('apiStatus');
+      s.textContent = '❌ Offline — library server not running';
+      s.className = 'fail';
+    });
+</script>
+</body>
+</html>

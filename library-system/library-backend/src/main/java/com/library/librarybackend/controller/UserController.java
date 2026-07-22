@@ -41,7 +41,7 @@ public class UserController {
             @RequestBody Map<String, String> body, Authentication auth) {
         try {
             String userId = (String) auth.getPrincipal();
-            userService.updateProfile(userId, body.get("fulName"), body.get("Phone"));
+            userService.updateProfile(userId, body.get("fullName"), body.get("phone"));
             return ResponseEntity.ok(ApiResponse.ok("Profile updated", null));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()));

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notifications – Home Library</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<nav class="navbar">
+  <div class="navbar-brand">Home Library</div>
+  <div class="navbar-links">
+    <a href="browse.html">Browse</a>
+    <a href="my-holds.html">My Holds</a>
+    <a href="my-loans.html">My Loans</a>
+    <a href="notifications.html" class="active">🔔 Notifications</a>
+    <a href="profile.html">Profile</a>
+  </div>
+  <div class="navbar-user">
+    <span id="userName"></span>
+    <button class="btn btn-outline btn-sm" onclick="auth.logout()">Logout</button>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="page-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+    <div>
+      <h1>🔔 Notifications</h1>
+      <p>Updates about your books and holds</p>
+    </div>
+    <button class="btn btn-outline btn-sm1" onclick="markAllRead()">Mark all as read</button>
+  </div>
+  <div id="notifContent">
+    <div class="empty"><h3>Loading…</h3></div>
+  </div>
+</div>
+
+<script src="../js/api.js"></script>
+<script src="../js/auth.js"></script>
+<script>
+  
+
+  document.addEventListener('DOMContentLoaded', () => {
+    if (!auth.requireLogin('../index.html')) return;
+    document.getElementById('userName').textContent = auth.name();
+    loadNotifs();
+  });
+
+  async function loadNotifs() {
+    try {
+      const notifs = await api.getNotifications();
+      if (!notifs.length) {
+        document.getElementById('notifContent').innerHTML =
+          `<div class="empty"><h3>No notifications yet</h3>
+           <p>We'll notify you when your holds are approved or books are due</p></div>`;
+        return;
+      }
+      document.getElementById('notifContent').innerHTML = notifs.map(n => `
+        <div class="card fade-up" style="margin-bottom:10px;${!n.read ? 'border-left:4px solid var(--primary);' : 'opacity:.78'}">
+          <div style="display:flex;gap:14px;align-items:flex-start;">
+            
+            <div style="flex:1;">
+              <div style="font-weight:700;font-size:15px;">${n.title}</div>
+              <div style="color:var(--text-muted);font-size:14px;margin-top:3px;">${n.message}</div>
+              <div style="font-size:12px;color:var(--text-muted);margin-top:6px;">${fmtDate(n.createdAt)}</div>
+            </div>
+            ${!n.read ? '<div style="width:9px;height:9px;border-radius:50%;background:var(--primary);flex-shrink:0;margin-top:4px;"></div>' : ''}
+          </div>
+        </div>`).join('');
+    } catch(e) {
+      document.getElementById('notifContent').innerHTML =
+        `<div class="alert alert-danger">${e.message}</div>`;
+    }
+  }
+
+  async function markAllRead() {
+    try {
+      await api.markAllRead();
+      toast('All notifications marked as read');
+      loadNotifs();
+    } catch(e) { toast(e.message, 'error'); }
+  }
+</script>
+</body>
+</html>

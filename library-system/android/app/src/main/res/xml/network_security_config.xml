@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Allows plain HTTP (not HTTPS) traffic to your local backend during development.
+     Without this, Android blocks all cleartext network requests by default. -->
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">10.0.2.2</domain>
+        <!-- Add your laptop's actual local IP here too, e.g. 192.168.1.100 -->
+        <domain includeSubdomains="true">192.168.100.16</domain>
+    </domain-config>
+</network-security-config>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Browse Books – Home Library</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="navbar-brand">Home Library</div>
+  <div class="navbar-links">
+    <a href="browse.html" class="active">Browse</a>
+    <a href="my-holds.html">My Holds</a>
+    <a href="my-loans.html">My Loans</a>
+    <a href="notifications.html">🔔 <span id="notifBadge" class="nav-badge" style="display:none;"></span></a>
+    <a href="profile.html">Profile</a>
+  </div>
+  <div class="navbar-user">
+    <span id="userName"></span>
+    <button class="btn btn-outline btn-sm" onclick="auth.logout()">Logout</button>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="page-header">
+    <h1>Browse Books</h1>
+    <p>Discover and reserve books from the collection</p>
+  </div>
+
+  <div style="display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap;">
+    <div class="search-bar" style="flex:1;min-width:200px;">
+      <span>🔍</span>
+      <input id="searchInput" placeholder="Search by title or author…" oninput="filterBooks()">
+    </div>
+    <select id="categoryFilter" class="form-control" style="width:180px;" onchange="loadBooks()">
+      <option value="">All Categories</option>
+      <option>Fiction</option><option>Non-Fiction</option><option>Children</option>
+      <option>Science</option><option>History</option><option>Biography</option>
+      <option>Religion</option><option>Education</option><option>Other</option>
+    </select>
+  </div>
+
+  <div id="pendingAlert" class="alert alert-warning" style="display:none;">
+    Your account is awaiting approval from the librarian. You can browse books but cannot place holds yet.
+  </div>
+
+  <div id="booksGrid" class="books-grid">
+    <div class="empty"></div><h3>Loading books…</h3></div>
+  </div>
+</div>
+
+<!-- BOOK DETAIL MODAL -->
+<div id="bookModal" class="modal-overlay" style="display:none;" onclick="closeModal(event)">
+  <div class="modal" style="max-width:520px;">
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<script src="../js/api.js"></script>
+<script src="../js/auth.js"></script>
+<script>
+  let allBooks = [];
+
+  document.addEventListener('DOMContentLoaded', () => {
+    if (!auth.requireLogin('../index.html')) return;
+    document.getElementById('userName').textContent = auth.name();
+    if (auth.status() === 'pending') document.getElementById('pendingAlert').style.display = 'block';
+    loadNotifBadge();
+    loadBooks();
+  });
+
+  async function loadNotifBadge() {
+    try {
+      const d = await api.getUnreadCount();
+      if (d.count > 0) {
+        const b = document.getElementById('notifBadge');
+        b.textContent = d.count; b.style.display = 'inline-flex';
+      }
+    } catch(e) {}
+  }
+
+  async function loadBooks() {
+    const cat = document.getElementById('categoryFilter').value;
+    try {
+      allBooks = await api.getTitles(cat);
+      renderBooks(allBooks);
+    } catch(e) {
+      document.getElementById('booksGrid').innerHTML =
+        `<div class="empty"><h3>${e.message}</h3></div>`;
+    }
+  }
+
+  function filterBooks() {
+    const q = document.getElementById('searchInput').value.toLowerCase();
+    renderBooks(allBooks.filter(b =>
+      b.title.toLowerCase().includes(q) || b.author.toLowerCase().includes(q)));
+  }
+
+  function renderBooks(books) {
+    if (!books.length) {
+      document.getElementById('booksGrid').innerHTML =
+        `<div class="empty"><div class="empty-icon">📭</div><h3>No books found</h3><p>Try a different search or category</p></div>`;
+      return;
+    }
+    document.getElementById('booksGrid').innerHTML = books.map(b => `
+      <div class="book-card fade-up" onclick="showBook('${b.id}')">
+        <div class="book-cover">
+          ${b.coverImageUrl ? `<img src="${b.coverImageUrl}" alt="${b.title}" onerror="this.style.display='none'">` : '📖'}
+          <span class="book-avail">${b.availableCopies}/${b.totalCopies} avail</span>
+        </div>
+        <div class="book-info">
+          <h3>${b.title}</h3>
+          <div class="author">${b.author}</div>
+          <span class="category">${b.category || 'General'}</span>
+        </div>
+      </div>`).join('');
+  }
+
+  async function showBook(titleId) {
+    try {
+      const b = await api.getTitle(titleId);
+      const canHold = auth.isApproved();
+      document.getElementById('modalContent').innerHTML = `
+        <div style="display:flex;gap:16px;margin-bottom:20px;align-items:flex-start;">
+          <div>
+            <h2 style="font-size:20px;font-weight:700;margin-bottom:4px;">${b.title}</h2>
+            <p style="color:var(--text-muted);margin-bottom:8px;">by ${b.author}</p>
+            <span style="background:var(--primary-light);color:var(--primary);border-radius:20px;padding:3px 12px;font-size:12px;font-weight:600;">${b.category || 'General'}</span>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;">
+          <div class="card card-sm" style="text-align:center;">
+            <div style="font-size:26px;font-weight:700;color:var(--success);">${b.availableCopies}</div>
+            <div style="font-size:12px;color:var(--text-muted);">Available</div>
+          </div>
+          <div class="card card-sm" style="text-align:center;">
+            <div style="font-size:26px;font-weight:700;color:var(--primary);">${b.totalCopies}</div>
+            <div style="font-size:12px;color:var(--text-muted);">Total Copies</div>
+          </div>
+        </div>
+        ${!canHold ? `<div class="alert alert-warning">Your account is pending approval. You cannot place holds yet.</div>` : ''}
+        ${b.availableCopies > 0 && canHold
+          ? `<button class="btn btn-primary btn-full" onclick="placeHold('${b.id}','${b.title.replace(/'/g,"\\'")}')">Place Hold</button>`
+          : !canHold ? ''
+          : `<button class="btn btn-warning btn-full" onclick="joinWaitlist('${b.id}','${b.title.replace(/'/g,"\\'")}')">Join Waitlist</button>`}
+        <button class="btn btn-outline btn-full1" style="margin-top:10px;" onclick="closeModalDirect()">Close</button>`;
+      document.getElementById('bookModal').style.display = 'flex';
+    } catch(e) { toast(e.message, 'error'); }
+  }
+
+  async function placeHold(titleId, title) {
+    try {
+      await api.placeHold(titleId);
+      toast(`Hold placed for "${title}"! The librarian will approve it soon.`);
+      closeModalDirect(); loadBooks();
+    } catch(e) { toast(e.message, 'error'); }
+  }
+
+  async function joinWaitlist(titleId, title) {
+    try { await api.placeHold(titleId); }
+    catch(e) { toast(e.message, e.message.toLowerCase().includes('waitlist') ? 'info' : 'error'); }
+    closeModalDirect();
+  }
+
+  function closeModal(e) { if (e.target === document.getElementById('bookModal')) closeModalDirect(); }
+  function closeModalDirect() { document.getElementById('bookModal').style.display = 'none'; }
+</script>
+</body>
+</html>
