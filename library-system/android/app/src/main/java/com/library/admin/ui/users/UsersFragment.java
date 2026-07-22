@@ -9,15 +9,12 @@ import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.library.admin.R;
 import com.library.admin.ui.profile.ProfileActivity;
 
 // Shows all users (pending/all tabs) and gives access to the admin's own profile.
-// Full list/tab logic is wired in a later batch - this establishes the screen
-// and the profile button so navigation works end-to-end already.
 public class UsersFragment extends Fragment {
 
     @Nullable
