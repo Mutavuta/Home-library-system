@@ -112,6 +112,11 @@
     <string name="btn_yes">Yes</string>
     <string name="btn_cancel">Cancel</string>
 
+    <string name="msg_user_approved">User approved</string>
+    <string name="msg_user_suspended">User suspended</string>
+    <string name="msg_user_reactivated">User reactivated</string>
+    <string name="confirm_suspend_user">Suspend this user? They will not be able to log in.</string>
+
     <!-- General -->
     <string name="label_loading">Loading...</string>
     <string name="label_error">Something went wrong. Please try again.</string>
