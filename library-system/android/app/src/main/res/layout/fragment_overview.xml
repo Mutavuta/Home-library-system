@@ -93,7 +93,7 @@
                             android:orientation="vertical" android:gravity="center">
                             <TextView android:id="@+id/tvBookTitles"
                                 android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                android:text="0" android:textSize="24sp" android:textStyle="bold" android:textColor="@color/white"/>
+                                android:textSize="24sp" android:textStyle="bold" android:textColor="@color/white"/>
                             <TextView
                                 android:layout_width="wrap_content" android:layout_height="wrap_content"
                                 android:text="@string/label_book_titles" android:textSize="14sp" android:textColor="@color/white"/>
@@ -108,7 +108,7 @@
                             android:orientation="vertical" android:gravity="center">
                             <TextView android:id="@+id/tvAvailable"
                                 android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                android:text="0" android:textSize="24sp" android:textStyle="bold" android:textColor="@color/white"/>
+                                android:textSize="24sp" android:textStyle="bold" android:textColor="@color/white"/>
                             <TextView
                                 android:layout_width="wrap_content" android:layout_height="wrap_content"
                                 android:text="@string/label_available" android:textSize="14sp" android:textColor="@color/white"/>
@@ -129,7 +129,7 @@
                             android:orientation="vertical" android:gravity="center">
                             <TextView android:id="@+id/tvReserved"
                                 android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                android:text="0" android:textSize="24sp" android:textStyle="bold" android:textColor="@color/white"/>
+                                android:textSize="24sp" android:textStyle="bold" android:textColor="@color/white"/>
                             <TextView
                                 android:layout_width="wrap_content" android:layout_height="wrap_content"
                                 android:text="@string/label_reserved" android:textSize="14sp" android:textColor="@color/white"/>
@@ -144,7 +144,7 @@
                             android:orientation="vertical" android:gravity="center">
                             <TextView android:id="@+id/tvOnLoan"
                                 android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                android:text="0" android:textSize="24sp" android:textStyle="bold" android:textColor="@color/white"/>
+                                android:textSize="24sp" android:textStyle="bold" android:textColor="@color/white"/>
                             <TextView
                                 android:layout_width="wrap_content" android:layout_height="wrap_content"
                                 android:text="@string/label_on_loan" android:textSize="14sp" android:textColor="@color/white"/>
@@ -165,7 +165,7 @@
                             android:orientation="vertical" android:gravity="center">
                             <TextView android:id="@+id/tvOverdueLoans"
                                 android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                android:text="0" android:textSize="24sp" android:textStyle="bold" android:textColor="@color/overdue_red"/>
+                                android:textSize="24sp" android:textStyle="bold" android:textColor="@color/overdue_red"/>
                             <TextView
                                 android:layout_width="wrap_content" android:layout_height="wrap_content"
                                 android:text="@string/label_overdue_loans" android:textSize="14sp" android:textColor="@color/overdue_red"/>
@@ -180,7 +180,7 @@
                             android:orientation="vertical" android:gravity="center">
                             <TextView android:id="@+id/tvPendingUsers"
                                 android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                android:text="0" android:textSize="24sp" android:textStyle="bold" android:textColor="@color/white"/>
+                                android:textSize="24sp" android:textStyle="bold" android:textColor="@color/white"/>
                             <TextView
                                 android:layout_width="wrap_content" android:layout_height="wrap_content"
                                 android:text="@string/label_pending_users" android:textSize="14sp" android:textColor="@color/white"/>
@@ -201,7 +201,7 @@
                             android:orientation="vertical" android:gravity="center">
                             <TextView android:id="@+id/tvAllBooks"
                                 android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                android:text="0" android:textSize="24sp" android:textStyle="bold" android:textColor="@color/white"/>
+                                android:textSize="24sp" android:textStyle="bold" android:textColor="@color/white"/>
                             <TextView
                                 android:layout_width="wrap_content" android:layout_height="wrap_content"
                                 android:text="@string/label_all_books" android:textSize="14sp" android:textColor="@color/white"/>
@@ -216,7 +216,7 @@
                             android:orientation="vertical" android:gravity="center">
                             <TextView android:id="@+id/tvAllUsers"
                                 android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                android:text="0" android:textSize="24sp" android:textStyle="bold" android:textColor="@color/white"/>
+                                android:textSize="24sp" android:textStyle="bold" android:textColor="@color/white"/>
                             <TextView
                                 android:layout_width="wrap_content" android:layout_height="wrap_content"
                                 android:text="@string/label_all_users" android:textSize="14sp" android:textColor="@color/white"/>

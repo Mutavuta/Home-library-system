@@ -17,7 +17,7 @@ android {
     buildTypes {
         debug {
             // This is how your phone reaches the Spring Boot backend on your laptop
-            buildConfigField "String", "API_BASE_URL", '"http://192.168.101.23:8080/api"'
+            buildConfigField "String", "API_BASE_URL", '"http://192.168.100.16:8080/api"'
         }
         release {
             minifyEnabled false
