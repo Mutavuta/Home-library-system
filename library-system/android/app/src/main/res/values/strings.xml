@@ -86,6 +86,22 @@
     <string name="error_password_short">Password must be at least 6 characters.</string>
     <string name="msg_admin_created">Admin account created. Please log in.</string>
 
+    <!-- Strings for add book screen  -->
+    <array name="book_categories">
+        <item>Fiction</item>
+        <item>Non-Fiction</item>
+        <item>Kids</item>
+        <item>Reference</item>
+        <item>Biography</item>
+        <item>Religion</item>
+        <item>Educational</item>
+    </array>
+
+    <string name="msg_book_added">Book added successfully</string>
+    <string name="error_barcode_exists">A book with this barcode already exists.</string>
+    <string name="error_select_title">Please select an existing title.</string>
+    <string name="error_camera_permission">Camera permission is required to scan barcodes.</string>
+
     <!-- General -->
     <string name="label_loading">Loading...</string>
     <string name="label_error">Something went wrong. Please try again.</string>
