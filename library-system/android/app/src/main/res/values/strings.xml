@@ -102,6 +102,16 @@
     <string name="error_select_title">Please select an existing title.</string>
     <string name="error_camera_permission">Camera permission is required to scan barcodes.</string>
 
+    <string name="msg_hold_approved">Hold approved</string>
+    <string name="msg_hold_expired">Hold expired</string>
+    <string name="confirm_expire_hold">Expire this hold? The reserved copy will be released.</string>
+    <string name="msg_loan_confirmed">Loan confirmed</string>
+    <string name="msg_user_deleted">User deleted</string>
+    <string name="confirm_delete_user">Permanently delete this user? This cannot be undone.</string>
+    <string name="label_no_holds">No holds waiting for collection.</string>
+    <string name="btn_yes">Yes</string>
+    <string name="btn_cancel">Cancel</string>
+
     <!-- General -->
     <string name="label_loading">Loading...</string>
     <string name="label_error">Something went wrong. Please try again.</string>
