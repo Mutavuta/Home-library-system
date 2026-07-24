@@ -9,7 +9,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.io.FileInputStream;
+import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -19,7 +20,7 @@ import java.io.InputStream;
 public class FirebaseConfig {
 
     // Path to firebase-service-account.json - set in application.properties
-    @Value("${firebase.credentials.path}")
+    @Value("${FIREBASE_SERVICE_ACCOUNT}")
     private String credentialsPath;
 
     // Firebase project URL - set in application.properties
@@ -32,15 +33,8 @@ public class FirebaseConfig {
     public FirebaseApp firebaseApp() throws IOException {
         // Only initialize once - prevents errors if the app context ever reloads
         if(FirebaseApp.getApps().isEmpty()) {
-            InputStream serviceAccount;
-            try {
-                // Look for the json file in the project root (where pom.xml lives)
-                serviceAccount = new FileInputStream(credentialsPath);
-            } catch (Exception e) {
-                // Fallback - look inside scr/main/resources instead
-                serviceAccount = getClass().getClassLoader()
-                        .getResourceAsStream(credentialsPath);
-            }
+            InputStream serviceAccount = new ByteArrayInputStream(
+                    credentialsPath.getBytes(StandardCharsets.UTF_8));
 
             FirebaseOptions options = FirebaseOptions.builder()
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount))
