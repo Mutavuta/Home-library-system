@@ -8,7 +8,7 @@ COPY src ./src
 RUN mvn clean install -DskipTests
 
 # Stage 2: Create the final runnable image
-FROM openjdk:17-jdk-slim-bullseye
+FROM openjdk:17-slim-bullseye
 WORKDIR /app
 # Copy the built JAR from the build stage
 COPY --from=build /app/target/library-backend-0.0.1-SNAPSHOT.jar app.jar
