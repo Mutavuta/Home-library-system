@@ -99,7 +99,7 @@ public interface ApiService {
     @GET("book/titles")
     Call<ApiResponse<List<BookTitle>>> getTitlesForStats();
 
-    @GET("books/admin/all")
+    @GET("book/admin/all")
     Call<ApiResponse<List<Book>>> getAllBooksForStats();
 
     @GET("users/admin/pending")

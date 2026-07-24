@@ -85,7 +85,7 @@ public class DashboardFragment extends Fragment {
                     int available = 0, reserved = 0, onLoan = 0;
                     for (BookTitle t : titles) {
                         available += t.availableCopies;
-                        reserved  += t.availableCopies;
+                        reserved  += t.reservedCopies;
                         onLoan    += t.loanedCopies;
                     }
 

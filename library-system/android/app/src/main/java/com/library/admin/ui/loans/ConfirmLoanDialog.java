@@ -45,7 +45,7 @@ public class ConfirmLoanDialog extends Dialog {
     private TextInputEditText etBarcode, etDueDate;
 
     public ConfirmLoanDialog(@NonNull Context context, Hold hold, FragmentManager fragmentManager) {
-        super(context);
+        super(context, R.style.Theme_HomeLibraryAdmin_Dialog);
         this.hold = hold;
         this.fragmentManager = fragmentManager;
     }

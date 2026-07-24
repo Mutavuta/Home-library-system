@@ -39,7 +39,7 @@ public class SelectHoldDialog extends Dialog {
     private TextView tvEmpty;
 
     public SelectHoldDialog(@NonNull Context context) {
-        super(context);
+        super(context, R.style.Theme_HomeLibraryAdmin_Dialog);
     }
 
     public void setOnHoldSelectedListener(OnHoldSelectedListener listener) {

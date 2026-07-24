@@ -19,7 +19,7 @@ public class AuthInterceptor implements Interceptor {
 
     public AuthInterceptor(Context context) {
         // Read from the same SharedPreferences file where we store the token after login
-        prefs = context.getSharedPreferences("library-prefs", Context.MODE_PRIVATE);
+        prefs = context.getSharedPreferences("library_prefs", Context.MODE_PRIVATE);
     }
 
     @NonNull
@@ -31,7 +31,7 @@ public class AuthInterceptor implements Interceptor {
         if (token != null) {
             // Attach the token as a Bearer Authorization header on every request
             Request request = original.newBuilder()
-                    .header("Authorization",  "Bearer" + token)
+                    .header("Authorization",  "Bearer " + token)
                     .build();
             return chain.proceed(request);
         }

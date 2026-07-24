@@ -18,7 +18,7 @@ public class ReturnResultDialog extends Dialog {
     private final String borrowerName;
 
     public ReturnResultDialog(@NonNull Context context, Book book, String borrowerName) {
-        super(context);
+        super(context, R.style.Theme_HomeLibraryAdmin_Dialog);
         this.book = book;
         this.borrowerName = borrowerName;
     }

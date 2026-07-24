@@ -40,13 +40,13 @@
         <!-- Author -->
         <TextView android:id="@+id/tvAuthor"
             android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:textSize="13sp" android:textColor="@color/hint_white"
+            android:textSize="13sp" android:textColor="@color/white"
             android:layout_marginTop="4dp"/>
 
         <!-- Copy counts row: "3 Copies   1 Available   1 Loaned   1 Reserved" -->
         <TextView android:id="@+id/tvCounts"
             android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:textSize="12sp" android:textColor="@color/hint_white"
+            android:textSize="12sp" android:textColor="@color/white"
             android:layout_marginTop="10dp"/>
 
     </LinearLayout>

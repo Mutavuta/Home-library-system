@@ -49,7 +49,7 @@ public class ProcessReturnDialog extends Dialog {
     private Button btnConfirmReturn;
 
     public ProcessReturnDialog(@NonNull Context context, String scannedBarcode, FragmentManager fragmentManager) {
-        super(context);
+        super(context, R.style.Theme_HomeLibraryAdmin_Dialog);
         this.scannedBarcode = scannedBarcode;
         this.fragmentManager = fragmentManager;
     }

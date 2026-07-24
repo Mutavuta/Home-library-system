@@ -53,7 +53,7 @@ public class AddBookDialog extends Dialog {
     // existingTiles is passed in from BooksFragment's already-loaded list,
     // so I don't need a second network call just to populate the dropdown
     public AddBookDialog(@NonNull Context context, String scannedBarcode, List<BookTitle> existingTitles) {
-        super(context);
+        super(context, R.style.Theme_HomeLibraryAdmin_Dialog);
         this.scannedBarcode = scannedBarcode;
         this.existingTitles = existingTitles;
     }
@@ -95,6 +95,7 @@ public class AddBookDialog extends Dialog {
     private void setupCategoryDropdown() {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 getContext(), R.array.book_categories, android.R.layout.simple_dropdown_item_1line);
+        etCategory.setAdapter(adapter);
     }
 
     // Populates the "existing title" dropdown with title strings, but I still
