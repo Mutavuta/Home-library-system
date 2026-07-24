@@ -1,7 +1,7 @@
 # Use a multi-stage build for a smaller final image
 
 # Stage 1: Build the application
-FROM maven:3-jdk-17 AS build
+FROM maven:3.9.6-eclipse-temurin-17 AS build
 WORKDIR /app
 COPY pom.xml .
 COPY src ./src
