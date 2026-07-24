@@ -42,7 +42,7 @@ public class UserService {
     public User suspendUser(String userId) throws ExecutionException, InterruptedException {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        userRepository.updateStatus(userId, "suspend");
+        userRepository.updateStatus(userId, "suspended");
         user.setStatus("suspended");
         return user;
     }
