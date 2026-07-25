@@ -100,6 +100,18 @@ public class UserController {
         }
     }
 
+    // DELETE /users/admin/{userId} - permanently removes a suspended user account
+    @DeleteMapping("/admin/{userId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ApiResponse<Void>> deleteUser(@PathVariable String userId) {
+        try {
+            userService.deleteUser(userId);
+            return ResponseEntity.ok(ApiResponse.ok("User deleted", null));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()));
+        }
+    }
+
     // POST /users/admin/{userId}/reactivate - admin reactivates a suspended account
     @PostMapping("/admin/{userId}/reactivate")
     @PreAuthorize("hasRole('ADMIN')")
