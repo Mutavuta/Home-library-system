@@ -54,7 +54,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="@drawable/bg_card_top_rounded">
+            android:background="@drawable/bg_card_top_rounded"
+            android:paddingBottom="138dp">
 
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/swipeRefresh"
@@ -66,7 +67,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:padding="12dp"
-                    android:paddingBottom="@dimen/content_bottom_padding_extra"
+                    android:paddingTop="@dimen/content_bottom_padding_extra"
                     android:clipToPadding="false"/>
 
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

@@ -27,9 +27,9 @@
     <dimen name="nav_bottom_margin">28dp</dimen>
 
     <!-- Bottom padding for scrollable content so the floating nav never covers the last item -->
-    <dimen name="content_bottom_padding">110dp</dimen>
+    <dimen name="content_bottom_padding">150dp</dimen>
     <!-- Extra padding for screens that also have a floating button/toggle row above the nav -->
-    <dimen name="content_bottom_padding_extra">180dp</dimen>
+    <dimen name="content_bottom_padding_extra">400dp</dimen>
     <!-- How far above the nav a floating button/toggle row sits -->
     <dimen name="floating_element_bottom_margin">110dp</dimen>
     <!-- Space above screen header -->
