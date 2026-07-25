@@ -47,6 +47,18 @@ public class UserService {
         return user;
     }
 
+    // Permanently deletes a suspended user account
+    public void deleteUser(String userId) throws ExecutionException, InterruptedException {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (!"suspended".equals(user.getStatus())) {
+            throw new RuntimeException("Only suspended accounts can be deleted.");
+        }
+
+        userRepository.delete(userId);
+    }
+
     // Re-activates a suspended account
     public User reactivateUser(String userId) throws ExecutionException, InterruptedException {
         User user = userRepository.findById(userId)
