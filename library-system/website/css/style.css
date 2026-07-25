@@ -152,6 +152,7 @@ select.form-control { cursor: pointer; }
 .btn:disabled {  opacity: .55; cursor: not-allowed; }
 .btn-full { width: 100%; justify-content: center; }
 .btn-full1 { background: #dc2626; width: 100%; justify-content: center; }
+.btn-full1:hover { border-color: var(--black); color: var(--black); }
 
 /* ===== TABLE ===== */
 .table-wrap { overflow-x: auto; }
