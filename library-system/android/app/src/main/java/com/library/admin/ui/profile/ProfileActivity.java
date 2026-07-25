@@ -4,23 +4,34 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.library.admin.R;
+import com.library.admin.api.ApiService;
+import com.library.admin.model.ApiResponse;
+import com.library.admin.model.User;
 import com.library.admin.ui.auth.LoginActivity;
+import com.library.admin.utils.RetrofitClient;
 import com.library.admin.utils.SessionManager;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 // Shows the logged-in admin's own info and lets them log out.
 // Reached from the profile icon button on the Users screen.
 public class ProfileActivity extends AppCompatActivity {
 
     private SessionManager sessionManager;
+    private ApiService apiService;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(android.os.Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        apiService = RetrofitClient.getInstance(this).create(ApiService.class);
 
         sessionManager = new SessionManager(this);
 
@@ -31,15 +42,25 @@ public class ProfileActivity extends AppCompatActivity {
         TextView tvCreatedAt = findViewById(R.id.tvCreatedAt);
         Button btnLogout     = findViewById(R.id.btnLogout);
 
-        // SessionManager only stores what came back from the login response -
-        // fullName, role and status. Email/phone/createdAt aren't part of that
-        // response, so those two fields stay blank here until the app fetches
-        // the full user profile from GET /users/me. Marking this as a known gap.
-        tvFullName.setText(sessionManager.getFullName());
-        tvRole.setText(capitalize(sessionManager.getRole()));
-        tvEmail.setText("");
-        tvPhone.setText("");
-        tvCreatedAt.setText("");
+        apiService.getProfile().enqueue(new Callback<ApiResponse<User>>() {
+            @Override
+            public void onResponse(Call<ApiResponse<User>> call, Response<ApiResponse<User>> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
+                    User user = response.body().getData();
+
+                    tvFullName.setText(user.fullName);
+                    tvEmail.setText(user.email);
+                    tvRole.setText(capitalize(user.role));
+                    tvPhone.setText(user.phone);
+                    tvCreatedAt.setText(user.createdAt);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse<User>> call, Throwable t) {
+                Toast.makeText(ProfileActivity.this, R.string.error_network, Toast.LENGTH_SHORT).show();
+            }
+        });
 
         btnLogout.setOnClickListener(v ->{
             sessionManager.clearSession();
