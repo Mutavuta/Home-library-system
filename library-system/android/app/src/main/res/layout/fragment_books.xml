@@ -75,7 +75,32 @@
 
     </LinearLayout>
 
-    <!-- Scan Barcode - floats above the card content, sits just above the nav bar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="@dimen/floating_element_bottom_margin">
+
+        <Button
+            android:id="@+id/btnConfirmLoan"
+            android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1"
+            android:text="Delete book" android:textSize="@dimen/text_body"
+            style="@style/Widget.HomeLibrary.Button.Outline" android:layout_marginEnd="8dp"
+            app:icon="@drawable/ic_scan" app:iconTint="@color/dark_text" app:iconGravity="textStart"/>
+
+        <Button
+            android:id="@+id/btnScanBarcode"
+            android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1"
+            android:text="@string/btn_scan_barcode" android:textSize="@dimen/text_body"
+            style="@style/Widget.HomeLibrary.Button.Outline"
+            app:icon="@drawable/ic_scan" app:iconTint="@color/dark_text" app:iconGravity="textStart" />
+
+    </LinearLayout>
+
+    <!-- Scan Barcode - floats above the card content, sits just above the nav bar
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnScanBarcode"
         android:layout_width="wrap_content"
@@ -89,6 +114,6 @@
         android:textColor="@color/dark_text"
         app:icon="@drawable/ic_scan"
         app:iconTint="@color/dark_text"
-        app:iconGravity="textStart"/>
+        app:iconGravity="textStart"/> -->
 
 </FrameLayout>
