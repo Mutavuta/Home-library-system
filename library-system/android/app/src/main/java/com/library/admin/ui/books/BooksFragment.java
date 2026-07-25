@@ -8,6 +8,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -46,7 +47,9 @@ public class BooksFragment extends Fragment {
     private RecyclerView recyclerBooks;
     private SwipeRefreshLayout swipeRefresh;
     private EditText etSearch;
-    private MaterialButton btnScanBarcode;
+    private Button btnScanBarcode;
+    private Button btnDeleteBook;
+    private boolean isDeleteMode = false;
 
     private BookTitleAdapter adapter;
     private List<BookTitle> allTitles = new ArrayList<>();
@@ -57,7 +60,14 @@ public class BooksFragment extends Fragment {
     private final ActivityResultLauncher<ScanOptions> barcodeLauncher =
             registerForActivityResult(new ScanContract(), result -> {
                 if (result.getContents() != null) {
-                    onBarcodeScanned(result.getContents());
+                    if (isDeleteMode) {
+                        isDeleteMode = false;
+                        onBarcodeScannedForDelete(result.getContents());
+                    } else {
+                        onBarcodeScanned(result.getContents());
+                    }
+                } else {
+                    isDeleteMode = false; // scan was cancelled - reset the flag either way
                 }
             });
 
@@ -83,6 +93,7 @@ public class BooksFragment extends Fragment {
         swipeRefresh   = view.findViewById(R.id.swipeRefresh);
         etSearch       = view.findViewById(R.id.etSearch);
         btnScanBarcode = view.findViewById(R.id.btnScanBarcode);
+        btnDeleteBook  = view.findViewById(R.id.btnDeleteBook);
 
         adapter = new BookTitleAdapter();
         recyclerBooks.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -90,6 +101,7 @@ public class BooksFragment extends Fragment {
 
         swipeRefresh.setOnRefreshListener(this::loadTitles);
         btnScanBarcode.setOnClickListener(v -> checkCameraPermissionAndScan());
+        btnDeleteBook.setOnClickListener(v -> checkCameraPermissionAndScanForDelete());
 
         setupSearch();
         loadTitles();
@@ -159,6 +171,24 @@ public class BooksFragment extends Fragment {
         } else {
             cameraPermissionLauncher.launch(Manifest.permission.CAMERA);
         }
+    }
+
+    // Separate permission-check path for delete, since we need to route the
+// scanned barcode to DeleteBookDialog instead of AddBookDialog
+    private void checkCameraPermissionAndScanForDelete() {
+        isDeleteMode = true;
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)
+                == PackageManager.PERMISSION_GRANTED) {
+            launchScanner();
+        } else {
+            cameraPermissionLauncher.launch(Manifest.permission.CAMERA);
+        }
+    }
+
+    private void onBarcodeScannedForDelete(String barcode) {
+        DeleteBookDialog dialog = new DeleteBookDialog(requireContext(), barcode);
+        dialog.setOnBookDeletedListener(this::loadTitles);
+        dialog.show();
     }
 
     private void launchScanner() {
