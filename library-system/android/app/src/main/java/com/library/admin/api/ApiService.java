@@ -91,6 +91,9 @@ public interface ApiService {
     @DELETE("users/admin/{userId}")
     Call<ApiResponse<Void>> deleteUser(@Path("userId") String userId);
 
+    @GET("users/me")
+    Call<ApiResponse<User>> getProfile();
+
     // Dashboard stats
     // These reuse existing endpoints - dashboard aggregates their results
     @GET("loans/admin/overdue")
