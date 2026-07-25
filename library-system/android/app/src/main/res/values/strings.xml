@@ -46,6 +46,9 @@
     <string name="hint_search_books">Search Title or Author</string>
     <string name="btn_scan_barcode">Scan Barcode</string>
     <string name="label_copies">Copies</string>
+    <string name="btn_delete_book">Delete Book</string>
+    <string name="title_delete_book">Delete Book?</string>
+    <string name="msg_book_deleted">Book deleted successfully</string>
 
     <!-- Holds screen -->
     <string name="tab_pending">Pending</string>

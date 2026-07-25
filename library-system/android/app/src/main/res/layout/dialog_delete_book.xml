@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/white_background"
+    android:padding="20dp">
+
+    <TextView
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="@string/title_delete_book"
+        android:textSize="18sp" android:textStyle="bold"
+        android:textColor="@color/dark_text"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Book details - filled in after barcode lookup -->
+    <LinearLayout android:id="@+id/llBookInfo"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/bg_status_badge"
+        android:padding="14dp"
+        android:layout_marginBottom="16dp"
+        android:visibility="gone">
+
+        <TextView android:id="@+id/tvBookTitle"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:textSize="15sp" android:textStyle="bold"
+            android:textColor="@color/white"
+            android:layout_marginBottom="2dp"/>
+
+        <TextView android:id="@+id/tvAuthor"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:textSize="13sp" android:textColor="@color/white"
+            android:layout_marginBottom="2dp"/>
+
+        <TextView android:id="@+id/tvBarcode"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:textSize="12sp" android:textColor="@color/white"/>
+
+    </LinearLayout>
+
+    <!-- Shown if lookup fails or the copy can't be deleted (not available) -->
+    <TextView android:id="@+id/tvError"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:textColor="@color/overdue_red"
+        android:textSize="13sp"
+        android:layout_marginBottom="12dp"
+        android:visibility="gone"/>
+
+    <!-- Action buttons -->
+    <LinearLayout
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button android:id="@+id/btnCancel"
+            android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1"
+            android:text="Cancel"
+            style="@style/Widget.HomeLibrary.Button.Outline.Dark"
+            android:layout_marginEnd="10dp"/>
+
+        <Button android:id="@+id/btnDelete"
+            android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1"
+            android:text="@string/btn_delete_book"
+            style="@style/Widget.HomeLibrary.Button.Black"
+            android:enabled="false"/>
+
+    </LinearLayout>
+
+</LinearLayout>
