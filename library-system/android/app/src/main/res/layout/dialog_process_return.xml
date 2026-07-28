@@ -38,12 +38,12 @@
         <TextView android:id="@+id/tvBookTitle"
             android:layout_width="wrap_content" android:layout_height="wrap_content"
             android:textSize="15sp" android:textStyle="bold"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:layout_marginBottom="2dp"/>
 
         <TextView android:id="@+id/tvBorrowerName"
             android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:textSize="13sp" android:textColor="@color/white"/>
+            android:textSize="13sp" android:textColor="@color/black"/>
 
     </LinearLayout>
 
